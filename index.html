@@ -1,0 +1,1326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mia's Popsicle Paradise</title>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Gaegu:wght@400;700&family=Gloria+Hallelujah&family=Bangers&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #FF2D87;
+    --hot-pink: #FF69B4;
+    --electric-blue: #00D4FF;
+    --lime: #7FFF00;
+    --sunny: #FFD700;
+    --orange: #FF6B35;
+    --grape: #9B59B6;
+    --mint: #00E5A0;
+    --coral: #FF7F7F;
+    --sky: #87CEEB;
+    --black: #1a1a2e;
+    --comic-border: 4px solid var(--black);
+    --comic-shadow: 6px 6px 0px var(--black);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 18px;
+    background: #FFF8DC;
+    overflow-x: hidden;
+    cursor: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><text y='24' font-size='24'>🍦</text></svg>") 4 4, auto;
+    /* halftone dot background */
+    background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  /* ============ COMIC PANEL BASE ============ */
+  .comic-panel {
+    border: var(--comic-border);
+    box-shadow: var(--comic-shadow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .comic-panel::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: radial-gradient(circle, rgba(0,0,0,0.06) 1px, transparent 1px);
+    background-size: 8px 8px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .comic-panel > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ============ SPEECH BUBBLE ============ */
+  .speech-bubble {
+    position: relative;
+    background: white;
+    border: 3px solid var(--black);
+    border-radius: 20px;
+    padding: 1rem 1.5rem;
+    display: inline-block;
+    box-shadow: 3px 3px 0 var(--black);
+  }
+
+  .speech-bubble::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 30px;
+    width: 0; height: 0;
+    border: 12px solid transparent;
+    border-top-color: var(--black);
+  }
+
+  .speech-bubble::before {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 33px;
+    width: 0; height: 0;
+    border: 9px solid transparent;
+    border-top-color: white;
+    z-index: 2;
+  }
+
+  /* ============ ACTION BURST ============ */
+  .burst {
+    display: inline-block;
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    color: white;
+    padding: 0.8rem 1.5rem;
+    position: relative;
+    text-shadow: 2px 2px 0 var(--black);
+    letter-spacing: 2px;
+    animation: burstPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    z-index: 5;
+  }
+
+  .burst svg {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 160%;
+    height: 160%;
+    z-index: -1;
+  }
+
+  @keyframes burstPop {
+    from { transform: scale(0) rotate(-20deg); opacity: 0; }
+    to { transform: scale(1) rotate(0deg); opacity: 1; }
+  }
+
+  /* ============ PAGE LAYOUT - COMIC GRID ============ */
+  .comic-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .comic-row {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 768px) {
+    .comic-row { flex-direction: column; }
+  }
+
+  /* ============ HERO PANEL ============ */
+  .hero-panel {
+    background: linear-gradient(135deg, #FFE4F0, #FFF0B8, #D4F0FF);
+    padding: 3rem 2rem;
+    text-align: center;
+    transform: rotate(-0.5deg);
+    border-width: 5px;
+  }
+
+  .hero-panel h1 {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(3.5rem, 10vw, 7rem);
+    line-height: 1;
+    color: var(--black);
+    text-shadow: 4px 4px 0 var(--pink), 8px 8px 0 var(--electric-blue);
+    letter-spacing: 4px;
+    margin-bottom: 0.5rem;
+    animation: heroSlam 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+  }
+
+  @keyframes heroSlam {
+    from { transform: scale(2) rotate(-10deg); opacity: 0; }
+    60% { transform: scale(1.1) rotate(2deg); }
+    to { transform: scale(1) rotate(0); opacity: 1; }
+  }
+
+  .hero-subtitle {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: clamp(1.2rem, 3vw, 1.8rem);
+    color: var(--grape);
+    margin-bottom: 1.5rem;
+    animation: slideUp 0.5s ease-out 0.5s both;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  .hero-popsicles {
+    display: flex;
+    gap: 1.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    animation: slideUp 0.5s ease-out 0.7s both;
+  }
+
+  .floating-pop {
+    font-size: 3.5rem;
+    animation: wiggle 2s ease-in-out infinite;
+    filter: drop-shadow(2px 2px 0 var(--black));
+    transition: transform 0.3s;
+  }
+
+  .floating-pop:hover { transform: scale(1.5) rotate(-15deg) !important; }
+  .floating-pop:nth-child(2) { animation-delay: 0.3s; }
+  .floating-pop:nth-child(3) { animation-delay: 0.6s; }
+  .floating-pop:nth-child(4) { animation-delay: 0.9s; }
+  .floating-pop:nth-child(5) { animation-delay: 1.2s; }
+
+  @keyframes wiggle {
+    0%, 100% { transform: translateY(0) rotate(-5deg); }
+    25% { transform: translateY(-12px) rotate(5deg); }
+    75% { transform: translateY(5px) rotate(-3deg); }
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: var(--pink);
+    color: white;
+    font-family: 'Bangers', cursive;
+    font-size: 1.2rem;
+    padding: 0.4rem 1.5rem;
+    border: 3px solid var(--black);
+    box-shadow: 3px 3px 0 var(--black);
+    transform: rotate(-3deg);
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+    animation: slideUp 0.5s ease-out 0.1s both;
+  }
+
+  .scroll-arrow {
+    margin-top: 1.5rem;
+    font-size: 2rem;
+    animation: bounce 1.5s ease-in-out infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  /* ============ SECTION TITLES ============ */
+  .panel-title {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+    margin-bottom: 0.3rem;
+  }
+
+  .panel-subtitle {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ============ FLAVOR PANELS ============ */
+  .flavors-header {
+    background: linear-gradient(135deg, #E8D5FF, #FFD5E8);
+    padding: 2rem;
+    text-align: center;
+    flex: 1;
+    transform: rotate(0.3deg);
+  }
+
+  .flavors-header .panel-title {
+    color: var(--grape);
+  }
+
+  .flavor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    padding: 0.5rem;
+  }
+
+  .flavor-card {
+    background: white;
+    border: 3px solid var(--black);
+    box-shadow: 4px 4px 0 var(--black);
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    position: relative;
+  }
+
+  .flavor-card:nth-child(odd) { transform: rotate(-1deg); }
+  .flavor-card:nth-child(even) { transform: rotate(1deg); }
+
+  .flavor-card:hover {
+    transform: translateY(-6px) rotate(0deg) scale(1.03);
+    box-shadow: 8px 8px 0 var(--black);
+    z-index: 5;
+  }
+
+  .flavor-card .pop-emoji {
+    font-size: 3.5rem;
+    display: block;
+    margin-bottom: 0.5rem;
+    filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.15));
+    transition: transform 0.3s;
+  }
+
+  .flavor-card:hover .pop-emoji {
+    transform: scale(1.2) rotate(10deg);
+    animation: jello 0.5s;
+  }
+
+  @keyframes jello {
+    0%, 100% { transform: scale(1.2) rotate(10deg); }
+    30% { transform: scale(1.3, 1.1) rotate(12deg); }
+    60% { transform: scale(1.1, 1.25) rotate(8deg); }
+  }
+
+  .flavor-card h3 {
+    font-family: 'Bangers', cursive;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.4rem;
+  }
+
+  .flavor-card p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.4;
+  }
+
+  /* Flavor card speech bubble description */
+  .flavor-desc {
+    position: relative;
+    background: #FAFAFA;
+    border: 2px solid #ddd;
+    border-radius: 12px;
+    padding: 0.6rem 0.8rem;
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+  }
+
+  .flavor-card .weirdness {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-family: 'Bangers', cursive;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    padding: 0.2rem 0.8rem;
+    border: 2px solid var(--black);
+    background: var(--sunny);
+    box-shadow: 2px 2px 0 var(--black);
+    transform: rotate(-2deg);
+  }
+
+  /* Individual flavor colors */
+  .flavor-card:nth-child(1) { background: #FFF0F5; }
+  .flavor-card:nth-child(1) h3 { color: var(--pink); }
+  .flavor-card:nth-child(2) { background: #F0FAFF; }
+  .flavor-card:nth-child(2) h3 { color: #0099BB; }
+  .flavor-card:nth-child(3) { background: #FFFFF0; }
+  .flavor-card:nth-child(3) h3 { color: #AA8800; }
+  .flavor-card:nth-child(4) { background: #FFF5F0; }
+  .flavor-card:nth-child(4) h3 { color: var(--orange); }
+  .flavor-card:nth-child(5) { background: #F8F0FF; }
+  .flavor-card:nth-child(5) h3 { color: var(--grape); }
+  .flavor-card:nth-child(6) { background: #FFF0F8; }
+  .flavor-card:nth-child(6) h3 { color: var(--pink); }
+
+  /* ============ CUSTOMIZER SECTION ============ */
+  .customizer-row {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 1.5rem;
+  }
+
+  @media (max-width: 850px) {
+    .customizer-row { grid-template-columns: 1fr; }
+  }
+
+  .machine-panel {
+    background: linear-gradient(180deg, #FFFDE8, #FFF0F5);
+    padding: 2rem;
+    transform: rotate(0.3deg);
+  }
+
+  .machine-panel .panel-title {
+    color: var(--orange);
+  }
+
+  .machine-header {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 3px dashed var(--black);
+  }
+
+  .machine-header h3 {
+    font-family: 'Bangers', cursive;
+    font-size: 1.8rem;
+    color: var(--grape);
+    letter-spacing: 2px;
+  }
+
+  .machine-light {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--lime);
+    border: 2px solid var(--black);
+    box-shadow: 0 0 8px var(--lime);
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .step-group {
+    margin-bottom: 1.8rem;
+  }
+
+  .step-label {
+    font-family: 'Bangers', cursive;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    flex-shrink: 0;
+    border: 2px solid var(--black);
+    box-shadow: 2px 2px 0 var(--black);
+  }
+
+  .option-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(95px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .option-btn {
+    background: white;
+    border: 3px solid var(--black);
+    box-shadow: 3px 3px 0 var(--black);
+    padding: 0.7rem 0.3rem;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    font-family: 'Patrick Hand', cursive;
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+
+  .option-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--black);
+  }
+
+  .option-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--black);
+  }
+
+  .option-btn.selected {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--black);
+    font-weight: 700;
+  }
+
+  .option-btn .opt-emoji {
+    font-size: 1.4rem;
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+
+  /* Step colors */
+  .step-1 .step-number { background: var(--pink); }
+  .step-1 .step-label { color: var(--pink); }
+  .step-1 .option-btn.selected { background: #FFE0EE; border-color: var(--pink); }
+
+  .step-2 .step-number { background: var(--electric-blue); }
+  .step-2 .step-label { color: #0099BB; }
+  .step-2 .option-btn.selected { background: #E0F7FF; border-color: var(--electric-blue); }
+
+  .step-3 .step-number { background: var(--orange); }
+  .step-3 .step-label { color: var(--orange); }
+  .step-3 .option-btn.selected { background: #FFF0E0; border-color: var(--orange); }
+
+  .step-4 .step-number { background: var(--grape); }
+  .step-4 .step-label { color: var(--grape); }
+  .step-4 .option-btn.selected { background: #F0E0FF; border-color: var(--grape); }
+
+  .step-5 .step-number { background: var(--mint); }
+  .step-5 .step-label { color: #00AA77; }
+  .step-5 .option-btn.selected { background: #E0FFF5; border-color: var(--mint); }
+
+  /* ============ PREVIEW PANEL ============ */
+  .preview-panel {
+    position: sticky;
+    top: 1.5rem;
+  }
+
+  .preview-card {
+    background: linear-gradient(180deg, #E8F8FF, #FFF0F8);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transform: rotate(-0.5deg);
+  }
+
+  .preview-card h3 {
+    font-family: 'Bangers', cursive;
+    font-size: 1.6rem;
+    color: var(--orange);
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+  }
+
+  .popsicle-display {
+    position: relative;
+    width: 120px;
+    margin: 0 auto 1.5rem;
+  }
+
+  .pop-body {
+    width: 120px;
+    border-radius: 20px 20px 40px 40px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    border: 3px solid var(--black);
+    box-shadow: 4px 4px 0 var(--black);
+  }
+
+  .pop-layer {
+    width: 100%;
+    height: 55px;
+    transition: background 0.4s;
+  }
+
+  .pop-drip {
+    position: absolute;
+    bottom: -10px;
+    width: 16px;
+    height: 22px;
+    border-radius: 50%;
+    animation: drip 2s ease-in infinite;
+    border: 2px solid var(--black);
+  }
+
+  @keyframes drip {
+    0% { transform: translateY(0) scale(1); opacity: 0.8; }
+    100% { transform: translateY(30px) scale(0.5); opacity: 0; }
+  }
+
+  .pop-stick {
+    width: 20px;
+    height: 70px;
+    margin: 0 auto;
+    border-radius: 0 0 6px 6px;
+    transition: background 0.4s;
+    border: 2px solid var(--black);
+    border-top: none;
+  }
+
+  .pop-topping-display {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    border-radius: 20px 20px 40px 40px;
+    overflow: hidden;
+  }
+
+  .sprinkle {
+    position: absolute;
+    width: 4px;
+    height: 12px;
+    border-radius: 3px;
+  }
+
+  .pop-name-display {
+    font-family: 'Bangers', cursive;
+    font-size: 1.3rem;
+    color: var(--grape);
+    letter-spacing: 1px;
+    min-height: 2.5rem;
+  }
+
+  .pop-weirdness-display {
+    margin-top: 0.5rem;
+    padding: 0.3rem 1rem;
+    display: inline-block;
+    font-family: 'Bangers', cursive;
+    font-size: 1rem;
+    background: var(--sunny);
+    border: 2px solid var(--black);
+    box-shadow: 2px 2px 0 var(--black);
+    letter-spacing: 1px;
+  }
+
+  /* Make button */
+  .make-btn {
+    display: block;
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border: 4px solid var(--black);
+    background: linear-gradient(135deg, var(--pink), var(--orange));
+    color: white;
+    font-family: 'Bangers', cursive;
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 5px 5px 0 var(--black);
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+  }
+
+  .make-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 var(--black);
+  }
+
+  .make-btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: 2px 2px 0 var(--black);
+  }
+
+  /* ============ ACTION WORDS ============ */
+  .action-word {
+    position: fixed;
+    font-family: 'Bangers', cursive;
+    font-size: 3rem;
+    letter-spacing: 3px;
+    z-index: 999;
+    pointer-events: none;
+    animation: actionPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    text-shadow: 3px 3px 0 var(--black);
+    -webkit-text-stroke: 2px var(--black);
+    paint-order: stroke fill;
+  }
+
+  @keyframes actionPop {
+    0% { transform: scale(0) rotate(-30deg); opacity: 0; }
+    50% { transform: scale(1.3) rotate(5deg); opacity: 1; }
+    100% { transform: scale(1) rotate(-2deg); opacity: 0; }
+  }
+
+  /* ============ RESULT MODAL ============ */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .modal-overlay.active {
+    display: flex;
+    animation: fadeIn 0.3s;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .modal-card {
+    background: #FFFFF0;
+    border: 5px solid var(--black);
+    box-shadow: 10px 10px 0 var(--black);
+    padding: 2.5rem;
+    max-width: 480px;
+    width: 100%;
+    text-align: center;
+    position: relative;
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background-image: radial-gradient(circle, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 10px 10px;
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.5) rotate(-5deg); }
+    to { opacity: 1; transform: scale(1) rotate(0); }
+  }
+
+  .modal-card h2 {
+    font-family: 'Bangers', cursive;
+    font-size: 2.2rem;
+    color: var(--pink);
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 0 rgba(255,45,135,0.2);
+    margin-bottom: 1rem;
+  }
+
+  .modal-popsicle {
+    margin: 1.5rem auto;
+    transform: scale(1.3);
+  }
+
+  .modal-details {
+    text-align: left;
+    background: white;
+    border: 3px solid var(--black);
+    box-shadow: 3px 3px 0 var(--black);
+    padding: 1.2rem;
+    margin: 1.5rem 0;
+  }
+
+  .modal-details p {
+    margin-bottom: 0.4rem;
+    font-size: 1.05rem;
+  }
+
+  .modal-details strong {
+    font-family: 'Bangers', cursive;
+    color: var(--grape);
+    letter-spacing: 1px;
+  }
+
+  .close-btn {
+    background: var(--electric-blue);
+    color: white;
+    border: 3px solid var(--black);
+    padding: 0.7rem 2rem;
+    font-family: 'Bangers', cursive;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 var(--black);
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    transition: all 0.2s;
+  }
+
+  .close-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--black);
+  }
+
+  .close-btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--black);
+  }
+
+  .confetti-container {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 1001;
+    overflow: hidden;
+  }
+
+  .confetti-piece {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    top: -10px;
+    animation: confettiFall linear forwards;
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* ============ FOOTER PANEL ============ */
+  .footer-panel {
+    background: linear-gradient(135deg, #FFE4F0, #E4F0FF);
+    padding: 2rem;
+    text-align: center;
+    transform: rotate(0.3deg);
+  }
+
+  .footer-panel p {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 1.5rem;
+    color: var(--grape);
+  }
+
+  .footer-pops {
+    font-size: 2rem;
+    display: block;
+    margin-top: 0.5rem;
+    letter-spacing: 0.5rem;
+  }
+
+  /* ============ SCROLL REVEAL ============ */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ============ CORNER DECORATIONS ============ */
+  .corner-deco {
+    position: absolute;
+    font-size: 2rem;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="comic-page">
+
+  <!-- ==================== HERO PANEL ==================== -->
+  <div class="hero-panel comic-panel">
+    <div class="hero-badge">Welcome to Mia's World</div>
+    <h1>POPSICLE<br>PARADISE</h1>
+    <p class="hero-subtitle">Where crazy flavors come to life!</p>
+    <div class="hero-popsicles">
+      <span class="floating-pop">🍭</span>
+      <span class="floating-pop">🧊</span>
+      <span class="floating-pop">🍬</span>
+      <span class="floating-pop">🌈</span>
+      <span class="floating-pop">🍧</span>
+    </div>
+    <div class="scroll-arrow">👇</div>
+  </div>
+
+  <!-- ==================== CRAZY FLAVORS ROW ==================== -->
+  <div class="flavors-header comic-panel reveal">
+    <div class="panel-title" style="color: var(--grape);">CRAZY FLAVORS</div>
+    <div class="panel-subtitle">Would YOU try these?!</div>
+  </div>
+
+  <div class="flavor-grid">
+    <div class="flavor-card reveal">
+      <span class="pop-emoji">🍕</span>
+      <h3>PIZZA POP</h3>
+      <div class="flavor-desc">
+        <p>Tomato sauce base with mozzarella swirls and tiny pepperoni bits frozen inside. Yes, really!</p>
+      </div>
+      <span class="weirdness">WEIRDNESS: 🤪🤪🤪🤪🤪</span>
+    </div>
+
+    <div class="flavor-card reveal">
+      <span class="pop-emoji">🥒</span>
+      <h3>PICKLE LEMONADE BLAST</h3>
+      <div class="flavor-desc">
+        <p>Tangy dill pickle juice mixed with sweet lemonade. Sounds gross, tastes AMAZING.</p>
+      </div>
+      <span class="weirdness">WEIRDNESS: 🤪🤪🤪🤪</span>
+    </div>
+
+    <div class="flavor-card reveal">
+      <span class="pop-emoji">🍿</span>
+      <h3>BUTTERED POPCORN DREAM</h3>
+      <div class="flavor-desc">
+        <p>Movie theater popcorn flavor with real butter swirl and a caramel core. Salty-sweet perfection!</p>
+      </div>
+      <span class="weirdness">WEIRDNESS: 🤪🤪🤪</span>
+    </div>
+
+    <div class="flavor-card reveal">
+      <span class="pop-emoji">🌶️</span>
+      <h3>MANGO CHILI FIRE</h3>
+      <div class="flavor-desc">
+        <p>Sweet mango base with a spicy chili lime kick that sneaks up on you. Bring water!</p>
+      </div>
+      <span class="weirdness">WEIRDNESS: 🤪🤪🤪🤪</span>
+    </div>
+
+    <div class="flavor-card reveal">
+      <span class="pop-emoji">🍪</span>
+      <h3>COOKIE DOUGH FREEZE</h3>
+      <div class="flavor-desc">
+        <p>Vanilla ice cream base packed with chocolate chip cookie dough chunks. Classic gone frozen!</p>
+      </div>
+      <span class="weirdness">WEIRDNESS: 🤪🤪</span>
+    </div>
+
+    <div class="flavor-card reveal">
+      <span class="pop-emoji">🧁</span>
+      <h3>COTTON CANDY UNICORN</h3>
+      <div class="flavor-desc">
+        <p>Pink and blue swirled cotton candy with edible glitter and rainbow sprinkles throughout!</p>
+      </div>
+      <span class="weirdness">WEIRDNESS: 🤪🤪🤪</span>
+    </div>
+  </div>
+
+  <!-- ==================== POPSICLE CUSTOMIZER ==================== -->
+  <div class="comic-panel reveal" style="background: linear-gradient(135deg, #FFF8E0, #FFE8F0); padding: 2rem; transform: rotate(-0.2deg);">
+    <div class="panel-title" style="color: var(--orange); text-align: center;">POPSICLE MACHINE</div>
+    <div class="panel-subtitle" style="text-align: center;">Build your own crazy creation!</div>
+  </div>
+
+  <div class="customizer-row">
+    <!-- Machine Controls -->
+    <div class="machine-panel comic-panel reveal">
+      <div class="machine-header">
+        <div class="machine-light"></div>
+        <h3>CONTROL PANEL</h3>
+        <div class="machine-light"></div>
+      </div>
+
+      <!-- Step 1: Base Flavor -->
+      <div class="step-group step-1">
+        <div class="step-label">
+          <span class="step-number">1</span> PICK YOUR BASE FLAVOR
+        </div>
+        <div class="option-grid" data-step="base">
+          <button class="option-btn" data-value="strawberry" data-color="#FF6B9D" onclick="selectOption(this, 'base')">
+            <span class="opt-emoji">🍓</span>Strawberry
+          </button>
+          <button class="option-btn" data-value="blueberry" data-color="#4A90D9" onclick="selectOption(this, 'base')">
+            <span class="opt-emoji">🫐</span>Blueberry
+          </button>
+          <button class="option-btn" data-value="mango" data-color="#FFB347" onclick="selectOption(this, 'base')">
+            <span class="opt-emoji">🥭</span>Mango
+          </button>
+          <button class="option-btn" data-value="grape" data-color="#9B59B6" onclick="selectOption(this, 'base')">
+            <span class="opt-emoji">🍇</span>Grape
+          </button>
+          <button class="option-btn" data-value="lime" data-color="#7FFF00" onclick="selectOption(this, 'base')">
+            <span class="opt-emoji">🍈</span>Lime
+          </button>
+          <button class="option-btn" data-value="watermelon" data-color="#FF6B6B" onclick="selectOption(this, 'base')">
+            <span class="opt-emoji">🍉</span>Watermelon
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 2: Middle Layer -->
+      <div class="step-group step-2">
+        <div class="step-label">
+          <span class="step-number">2</span> ADD A MIDDLE LAYER
+        </div>
+        <div class="option-grid" data-step="middle">
+          <button class="option-btn" data-value="vanilla" data-color="#FFF8DC" onclick="selectOption(this, 'middle')">
+            <span class="opt-emoji">🍦</span>Vanilla
+          </button>
+          <button class="option-btn" data-value="chocolate" data-color="#8B4513" onclick="selectOption(this, 'middle')">
+            <span class="opt-emoji">🍫</span>Chocolate
+          </button>
+          <button class="option-btn" data-value="coconut" data-color="#FAFAFA" onclick="selectOption(this, 'middle')">
+            <span class="opt-emoji">🥥</span>Coconut
+          </button>
+          <button class="option-btn" data-value="bubblegum" data-color="#FF69B4" onclick="selectOption(this, 'middle')">
+            <span class="opt-emoji">🫧</span>Bubblegum
+          </button>
+          <button class="option-btn" data-value="caramel" data-color="#D4A574" onclick="selectOption(this, 'middle')">
+            <span class="opt-emoji">🍯</span>Caramel
+          </button>
+          <button class="option-btn" data-value="mint" data-color="#98FFD0" onclick="selectOption(this, 'middle')">
+            <span class="opt-emoji">🌿</span>Mint
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 3: Top Drizzle -->
+      <div class="step-group step-3">
+        <div class="step-label">
+          <span class="step-number">3</span> CHOOSE YOUR DRIZZLE
+        </div>
+        <div class="option-grid" data-step="drizzle">
+          <button class="option-btn" data-value="rainbow" data-color="linear-gradient(135deg,#FF6B6B,#FFD93D,#6BCB77,#4D96FF)" onclick="selectOption(this, 'drizzle')">
+            <span class="opt-emoji">🌈</span>Rainbow
+          </button>
+          <button class="option-btn" data-value="cherry" data-color="#DC143C" onclick="selectOption(this, 'drizzle')">
+            <span class="opt-emoji">🍒</span>Cherry
+          </button>
+          <button class="option-btn" data-value="honey" data-color="#FFB800" onclick="selectOption(this, 'drizzle')">
+            <span class="opt-emoji">🍯</span>Honey
+          </button>
+          <button class="option-btn" data-value="bluerazz" data-color="#00BFFF" onclick="selectOption(this, 'drizzle')">
+            <span class="opt-emoji">💙</span>Blue Razz
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 4: Toppings -->
+      <div class="step-group step-4">
+        <div class="step-label">
+          <span class="step-number">4</span> PICK A TOPPING
+        </div>
+        <div class="option-grid" data-step="topping">
+          <button class="option-btn" data-value="sprinkles" onclick="selectOption(this, 'topping')">
+            <span class="opt-emoji">✨</span>Sprinkles
+          </button>
+          <button class="option-btn" data-value="gummy bears" onclick="selectOption(this, 'topping')">
+            <span class="opt-emoji">🐻</span>Gummy Bears
+          </button>
+          <button class="option-btn" data-value="cookie crumbs" onclick="selectOption(this, 'topping')">
+            <span class="opt-emoji">🍪</span>Cookie Crumbs
+          </button>
+          <button class="option-btn" data-value="pop rocks" onclick="selectOption(this, 'topping')">
+            <span class="opt-emoji">💥</span>Pop Rocks
+          </button>
+          <button class="option-btn" data-value="edible glitter" onclick="selectOption(this, 'topping')">
+            <span class="opt-emoji">💎</span>Edible Glitter
+          </button>
+          <button class="option-btn" data-value="sour worms" onclick="selectOption(this, 'topping')">
+            <span class="opt-emoji">🪱</span>Sour Worms
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 5: Stick -->
+      <div class="step-group step-5">
+        <div class="step-label">
+          <span class="step-number">5</span> CHOOSE YOUR STICK
+        </div>
+        <div class="option-grid" data-step="stick">
+          <button class="option-btn" data-value="classic" data-color="#D2B48C" onclick="selectOption(this, 'stick')">
+            <span class="opt-emoji">🪵</span>Classic Wood
+          </button>
+          <button class="option-btn" data-value="pink" data-color="#FF69B4" onclick="selectOption(this, 'stick')">
+            <span class="opt-emoji">💗</span>Pink
+          </button>
+          <button class="option-btn" data-value="gold" data-color="#FFD700" onclick="selectOption(this, 'stick')">
+            <span class="opt-emoji">⭐</span>Gold
+          </button>
+          <button class="option-btn" data-value="rainbow" data-color="linear-gradient(180deg,#FF6B6B,#FFD93D,#6BCB77,#4D96FF,#9B59B6)" onclick="selectOption(this, 'stick')">
+            <span class="opt-emoji">🌈</span>Rainbow
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview Panel -->
+    <div class="preview-panel">
+      <div class="preview-card comic-panel reveal">
+        <h3>YOUR CREATION</h3>
+
+        <div class="popsicle-display" id="popsicle-preview">
+          <div class="pop-body">
+            <div class="pop-layer" id="layer-drizzle" style="background:#E0E0E0; height:50px;"></div>
+            <div class="pop-layer" id="layer-middle" style="background:#D0D0D0;"></div>
+            <div class="pop-layer" id="layer-base" style="background:#C0C0C0; height:60px; border-radius: 0 0 40px 40px;"></div>
+            <div class="pop-topping-display" id="topping-display"></div>
+            <div class="pop-drip" id="drip-1" style="left:15px; background:#ccc; animation-delay:0s;"></div>
+            <div class="pop-drip" id="drip-2" style="right:20px; background:#ccc; animation-delay:1s;"></div>
+          </div>
+          <div class="pop-stick" id="pop-stick" style="background:#D2B48C;"></div>
+        </div>
+
+        <div class="pop-name-display" id="pop-name">Pick some options!</div>
+        <div class="pop-weirdness-display" id="pop-weirdness">WEIRDNESS: ?</div>
+
+        <button class="make-btn" onclick="makePopsicle()">
+          MAKE IT! 🎉
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <div class="footer-panel comic-panel">
+    <p>Made with love by Mia</p>
+    <span class="footer-pops">🍭🍬🍧🌈🍦</span>
+  </div>
+
+</div>
+
+<!-- ==================== RESULT MODAL ==================== -->
+<div class="modal-overlay" id="result-modal">
+  <div class="modal-card">
+    <h2 id="modal-title">YOUR POPSICLE IS READY!</h2>
+    <div class="modal-popsicle popsicle-display" id="modal-popsicle"></div>
+    <div class="modal-details" id="modal-details"></div>
+    <button class="close-btn" onclick="closeModal()">MAKE ANOTHER ONE!</button>
+  </div>
+</div>
+
+<div class="confetti-container" id="confetti"></div>
+
+<script>
+  // ==================== STATE ====================
+  const state = {
+    base: null, baseColor: null,
+    middle: null, middleColor: null,
+    drizzle: null, drizzleColor: null,
+    topping: null,
+    stick: null, stickColor: null
+  };
+
+  const actionWords = ['POW!','BAM!','ZAP!','SPLAT!','ZING!','WHAM!','KAPOW!','BOOM!','CRACK!','WHOOSH!'];
+  const actionColors = ['#FF2D87','#00D4FF','#7FFF00','#FFD700','#FF6B35','#9B59B6','#FF69B4','#00E5A0'];
+
+  // ==================== SHOW ACTION WORD ====================
+  function showActionWord(x, y) {
+    const word = document.createElement('div');
+    word.className = 'action-word';
+    word.textContent = actionWords[Math.floor(Math.random() * actionWords.length)];
+    word.style.left = x + 'px';
+    word.style.top = y + 'px';
+    word.style.color = actionColors[Math.floor(Math.random() * actionColors.length)];
+    word.style.transform = `rotate(${(Math.random() - 0.5) * 30}deg)`;
+    document.body.appendChild(word);
+    setTimeout(() => word.remove(), 800);
+  }
+
+  // ==================== SELECTION ====================
+  function selectOption(btn, step) {
+    const grid = btn.closest('.option-grid');
+    grid.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+
+    state[step] = btn.dataset.value;
+    if (btn.dataset.color) {
+      state[step + 'Color'] = btn.dataset.color;
+    }
+
+    // Show comic action word
+    const rect = btn.getBoundingClientRect();
+    showActionWord(
+      rect.left + rect.width / 2 - 30,
+      rect.top - 40
+    );
+
+    updatePreview();
+  }
+
+  // ==================== PREVIEW UPDATE ====================
+  function updatePreview() {
+    const baseLayer = document.getElementById('layer-base');
+    const middleLayer = document.getElementById('layer-middle');
+    const drizzleLayer = document.getElementById('layer-drizzle');
+    const stick = document.getElementById('pop-stick');
+    const drip1 = document.getElementById('drip-1');
+    const drip2 = document.getElementById('drip-2');
+    const toppingDisplay = document.getElementById('topping-display');
+    const nameDisplay = document.getElementById('pop-name');
+    const weirdDisplay = document.getElementById('pop-weirdness');
+
+    if (state.baseColor) {
+      baseLayer.style.background = state.baseColor;
+      drip1.style.background = state.baseColor;
+    }
+    if (state.middleColor) {
+      middleLayer.style.background = state.middleColor;
+    }
+    if (state.drizzleColor) {
+      drizzleLayer.style.background = state.drizzleColor;
+      drip2.style.background = state.drizzleColor.startsWith('linear') ? '#FF6B6B' : state.drizzleColor;
+    }
+    if (state.stickColor) {
+      stick.style.background = state.stickColor;
+    }
+
+    // Toppings
+    toppingDisplay.innerHTML = '';
+    if (state.topping) {
+      const colors = ['#FF6B6B','#FFD93D','#6BCB77','#4D96FF','#FF69B4','#FF6B35','#9B59B6'];
+      for (let i = 0; i < 20; i++) {
+        const sprinkle = document.createElement('div');
+        sprinkle.className = 'sprinkle';
+        sprinkle.style.left = (Math.random() * 90 + 5) + '%';
+        sprinkle.style.top = (Math.random() * 85 + 5) + '%';
+        sprinkle.style.transform = `rotate(${Math.random() * 360}deg)`;
+        sprinkle.style.background = colors[Math.floor(Math.random() * colors.length)];
+        sprinkle.style.opacity = 0.8;
+
+        if (state.topping === 'gummy bears' || state.topping === 'sour worms') {
+          sprinkle.style.width = '8px';
+          sprinkle.style.height = '8px';
+          sprinkle.style.borderRadius = '50%';
+        } else if (state.topping === 'cookie crumbs') {
+          sprinkle.style.width = (Math.random() * 6 + 3) + 'px';
+          sprinkle.style.height = (Math.random() * 6 + 3) + 'px';
+          sprinkle.style.borderRadius = '2px';
+          sprinkle.style.background = '#8B6914';
+        } else if (state.topping === 'pop rocks') {
+          sprinkle.style.width = (Math.random() * 5 + 2) + 'px';
+          sprinkle.style.height = (Math.random() * 5 + 2) + 'px';
+          sprinkle.style.borderRadius = '1px';
+        } else if (state.topping === 'edible glitter') {
+          sprinkle.style.width = '3px';
+          sprinkle.style.height = '3px';
+          sprinkle.style.borderRadius = '50%';
+          sprinkle.style.background = `hsl(${Math.random()*360}, 100%, 80%)`;
+          sprinkle.style.boxShadow = '0 0 3px currentColor';
+        }
+        toppingDisplay.appendChild(sprinkle);
+      }
+    }
+
+    // Name generation
+    const parts = [state.drizzle, state.middle, state.base].filter(Boolean);
+    if (parts.length > 0) {
+      const name = parts.map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+      nameDisplay.textContent = name + (state.topping ? ' + ' + state.topping : '');
+    } else {
+      nameDisplay.textContent = 'Pick some options!';
+    }
+
+    // Weirdness calc
+    const selectedCount = [state.base, state.middle, state.drizzle, state.topping, state.stick].filter(Boolean).length;
+    const weirdCombos = {
+      'grape+mint': 2, 'mango+chocolate': 2, 'watermelon+caramel': 2,
+      'lime+bubblegum': 3, 'blueberry+coconut': 1, 'strawberry+vanilla': 0
+    };
+    let weirdness = selectedCount;
+    const combo = state.base + '+' + state.middle;
+    if (weirdCombos[combo] !== undefined) {
+      weirdness += weirdCombos[combo];
+    }
+    if (state.topping === 'pop rocks' || state.topping === 'sour worms') weirdness += 2;
+
+    const faces = ['😋','🤔','😜','🤪','🤯'];
+    const idx = Math.min(Math.floor(weirdness / 2), faces.length - 1);
+    weirdDisplay.textContent = 'WEIRDNESS: ' + faces[idx].repeat(Math.min(selectedCount, 5));
+  }
+
+  // ==================== MAKE POPSICLE ====================
+  function makePopsicle() {
+    const filled = [state.base, state.middle, state.drizzle].filter(Boolean);
+    if (filled.length < 2) {
+      const nameDisplay = document.getElementById('pop-name');
+      nameDisplay.textContent = 'Pick at least 2 layers!';
+      nameDisplay.style.color = 'var(--pink)';
+      setTimeout(() => { nameDisplay.style.color = ''; }, 1500);
+      return;
+    }
+
+    // Clone preview popsicle into modal
+    const previewPop = document.getElementById('popsicle-preview');
+    const modalPop = document.getElementById('modal-popsicle');
+    modalPop.innerHTML = previewPop.innerHTML;
+
+    // Build details
+    const details = document.getElementById('modal-details');
+    let html = '';
+    if (state.base) html += `<p><strong>Base:</strong> ${capitalize(state.base)}</p>`;
+    if (state.middle) html += `<p><strong>Middle:</strong> ${capitalize(state.middle)}</p>`;
+    if (state.drizzle) html += `<p><strong>Drizzle:</strong> ${capitalize(state.drizzle)}</p>`;
+    if (state.topping) html += `<p><strong>Topping:</strong> ${capitalize(state.topping)}</p>`;
+    if (state.stick) html += `<p><strong>Stick:</strong> ${capitalize(state.stick)}</p>`;
+    details.innerHTML = html;
+
+    // Funny name
+    const adjectives = ['Super','Mega','Ultra','Cosmic','Turbo','Funky','Magical','Epic','Wild','Extreme','Galactic','Legendary'];
+    const nouns = ['Blast','Dream','Explosion','Surprise','Tornado','Avalanche','Tsunami','Volcano','Lightning','Thunder'];
+    const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+    const noun = nouns[Math.floor(Math.random() * nouns.length)];
+    document.getElementById('modal-title').textContent = `THE ${adj.toUpperCase()} ${noun.toUpperCase()}!`;
+
+    // Show modal
+    document.getElementById('result-modal').classList.add('active');
+
+    // Confetti!
+    launchConfetti();
+  }
+
+  function capitalize(s) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  function closeModal() {
+    document.getElementById('result-modal').classList.remove('active');
+  }
+
+  // ==================== CONFETTI ====================
+  function launchConfetti() {
+    const container = document.getElementById('confetti');
+    container.innerHTML = '';
+    const colors = ['#FF2D87','#00D4FF','#7FFF00','#FFD700','#FF6B35','#9B59B6','#FF69B4','#00E5A0'];
+    const shapes = ['circle','square','triangle'];
+
+    for (let i = 0; i < 100; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + '%';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+      piece.style.animationDelay = Math.random() * 0.8 + 's';
+      piece.style.width = (Math.random() * 10 + 6) + 'px';
+      piece.style.height = (Math.random() * 10 + 6) + 'px';
+
+      const shape = shapes[Math.floor(Math.random() * shapes.length)];
+      if (shape === 'circle') piece.style.borderRadius = '50%';
+      else if (shape === 'triangle') {
+        piece.style.width = '0';
+        piece.style.height = '0';
+        piece.style.background = 'transparent';
+        piece.style.borderLeft = '7px solid transparent';
+        piece.style.borderRight = '7px solid transparent';
+        piece.style.borderBottom = '14px solid ' + colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      container.appendChild(piece);
+    }
+
+    setTimeout(() => { container.innerHTML = ''; }, 4000);
+  }
+
+  // ==================== SCROLL REVEAL ====================
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, i * 100);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Close modal on overlay click
+  document.getElementById('result-modal').addEventListener('click', (e) => {
+    if (e.target === e.currentTarget) closeModal();
+  });
+
+  // Close modal on Escape
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeModal();
+  });
+</script>
+</body>
+</html>
