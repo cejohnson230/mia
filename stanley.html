@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mia's Stanley Cup Creator</title>
+<link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Gaegu:wght@400;700&family=Gloria+Hallelujah&family=Bangers&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --pink: #FF2D87;
+    --hot-pink: #FF69B4;
+    --electric-blue: #00D4FF;
+    --lime: #7FFF00;
+    --sunny: #FFD700;
+    --orange: #FF6B35;
+    --grape: #9B59B6;
+    --mint: #00E5A0;
+    --black: #1a1a2e;
+    --comic-border: 4px solid var(--black);
+    --comic-shadow: 6px 6px 0px var(--black);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 18px;
+    background: #FFF8DC;
+    overflow-x: hidden;
+    background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  /* ============ NAV BAR ============ */
+  .nav-bar {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: white;
+    border-bottom: 4px solid var(--black);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-link {
+    font-family: 'Bangers', cursive;
+    font-size: 1.3rem;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: var(--black);
+    padding: 0.5rem 1.5rem;
+    border: 3px solid var(--black);
+    box-shadow: 3px 3px 0 var(--black);
+    transition: all 0.2s;
+  }
+
+  .nav-link:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--black);
+  }
+
+  .nav-link.active {
+    background: var(--electric-blue);
+    color: white;
+  }
+
+  .nav-link:first-child { background: #FFE0EE; }
+  .nav-link:last-child { background: #E0F0FF; }
+  .nav-link:last-child.active { background: var(--electric-blue); }
+
+  /* ============ COMIC PANEL ============ */
+  .comic-panel {
+    border: var(--comic-border);
+    box-shadow: var(--comic-shadow);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .comic-panel::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
+    background-size: 8px 8px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .comic-panel > * { position: relative; z-index: 1; }
+
+  /* ============ PAGE LAYOUT ============ */
+  .comic-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .panel-title {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
+    margin-bottom: 0.3rem;
+  }
+
+  .panel-subtitle {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 1.1rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+  }
+
+  /* ============ HERO ============ */
+  .hero-panel {
+    background: linear-gradient(135deg, #D4F0FF, #E8D5FF, #FFD5E8);
+    padding: 2.5rem 2rem;
+    text-align: center;
+    transform: rotate(-0.3deg);
+    border-width: 5px;
+  }
+
+  .hero-panel h1 {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(2.8rem, 9vw, 6rem);
+    line-height: 1;
+    color: var(--black);
+    text-shadow: 4px 4px 0 var(--electric-blue), 8px 8px 0 var(--grape);
+    letter-spacing: 4px;
+    margin-bottom: 0.5rem;
+    animation: heroSlam 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+  }
+
+  @keyframes heroSlam {
+    from { transform: scale(2) rotate(-10deg); opacity: 0; }
+    60% { transform: scale(1.1) rotate(2deg); }
+    to { transform: scale(1) rotate(0); opacity: 1; }
+  }
+
+  .hero-subtitle {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: clamp(1.1rem, 3vw, 1.6rem);
+    color: var(--grape);
+    animation: slideUp 0.5s ease-out 0.5s both;
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* ============ CUSTOMIZER LAYOUT ============ */
+  .customizer-layout {
+    display: grid;
+    grid-template-columns: 1fr 400px;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  @media (max-width: 900px) {
+    .customizer-layout { grid-template-columns: 1fr; }
+    .preview-panel { order: -1; }
+  }
+
+  /* ============ CONTROLS PANEL ============ */
+  .controls-panel {
+    background: linear-gradient(180deg, #FFFDE8, #F0F8FF);
+    padding: 2rem;
+    transform: rotate(0.2deg);
+  }
+
+  .step-group {
+    margin-bottom: 2rem;
+  }
+
+  .step-label {
+    font-family: 'Bangers', cursive;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .step-number {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1rem;
+    font-weight: 700;
+    border: 2px solid var(--black);
+    box-shadow: 2px 2px 0 var(--black);
+  }
+
+  /* Color pickers */
+  .color-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .color-row label {
+    font-family: 'Bangers', cursive;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    min-width: 100px;
+  }
+
+  .color-picker-wrap {
+    position: relative;
+    width: 60px;
+    height: 40px;
+    border: 3px solid var(--black);
+    box-shadow: 3px 3px 0 var(--black);
+    overflow: hidden;
+    cursor: pointer;
+  }
+
+  .color-picker-wrap input[type="color"] {
+    position: absolute;
+    top: -10px; left: -10px;
+    width: calc(100% + 20px);
+    height: calc(100% + 20px);
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  /* Size buttons */
+  .size-options {
+    display: flex;
+    gap: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .size-btn {
+    background: white;
+    border: 3px solid var(--black);
+    box-shadow: 3px 3px 0 var(--black);
+    padding: 0.6rem 1.2rem;
+    cursor: pointer;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1rem;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .size-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--black);
+  }
+
+  .size-btn.selected {
+    background: #E0F7FF;
+    border-color: var(--electric-blue);
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--black);
+    font-weight: 700;
+  }
+
+  .size-emoji { font-size: 1.3rem; }
+
+  /* Charms */
+  .charm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 0.6rem;
+  }
+
+  .charm-btn {
+    background: white;
+    border: 3px solid var(--black);
+    box-shadow: 3px 3px 0 var(--black);
+    padding: 0.5rem;
+    cursor: pointer;
+    text-align: center;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+  }
+
+  .charm-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 5px 5px 0 var(--black);
+  }
+
+  .charm-btn.selected {
+    background: #FFF0F5;
+    border-color: var(--pink);
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--black);
+  }
+
+  .charm-btn .charm-emoji { font-size: 1.5rem; display: block; margin-bottom: 0.2rem; }
+
+  /* Name input */
+  .name-input {
+    width: 100%;
+    padding: 0.7rem 1rem;
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1.1rem;
+    border: 3px solid var(--black);
+    box-shadow: 3px 3px 0 var(--black);
+    background: white;
+    outline: none;
+    transition: box-shadow 0.2s;
+  }
+
+  .name-input:focus {
+    box-shadow: 5px 5px 0 var(--electric-blue);
+    border-color: var(--electric-blue);
+  }
+
+  .name-input::placeholder { color: #bbb; }
+
+  /* Step colors */
+  .step-1 .step-number { background: var(--electric-blue); }
+  .step-1 .step-label { color: #0099BB; }
+  .step-2 .step-number { background: var(--grape); }
+  .step-2 .step-label { color: var(--grape); }
+  .step-3 .step-number { background: var(--pink); }
+  .step-3 .step-label { color: var(--pink); }
+  .step-4 .step-number { background: var(--orange); }
+  .step-4 .step-label { color: var(--orange); }
+  .step-5 .step-number { background: var(--mint); }
+  .step-5 .step-label { color: #00AA77; }
+
+  /* ============ PREVIEW PANEL ============ */
+  .preview-panel {
+    position: sticky;
+    top: 80px;
+  }
+
+  .preview-card {
+    background: linear-gradient(180deg, #F0F8FF, #FFF0F8);
+    padding: 2rem 1.5rem;
+    text-align: center;
+    transform: rotate(-0.5deg);
+  }
+
+  .preview-card h3 {
+    font-family: 'Bangers', cursive;
+    font-size: 1.6rem;
+    color: var(--electric-blue);
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+  }
+
+  .cup-canvas {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    min-height: 380px;
+    margin-bottom: 1rem;
+  }
+
+  .cup-name-display {
+    font-family: 'Bangers', cursive;
+    font-size: 1.3rem;
+    color: var(--grape);
+    letter-spacing: 1px;
+    min-height: 2rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .cup-details {
+    font-family: 'Bangers', cursive;
+    font-size: 1rem;
+    padding: 0.3rem 1rem;
+    display: inline-block;
+    background: var(--sunny);
+    border: 2px solid var(--black);
+    box-shadow: 2px 2px 0 var(--black);
+    letter-spacing: 1px;
+  }
+
+  /* Done button */
+  .done-btn {
+    display: block;
+    width: 100%;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    border: 4px solid var(--black);
+    background: linear-gradient(135deg, var(--electric-blue), var(--grape));
+    color: white;
+    font-family: 'Bangers', cursive;
+    font-size: 1.6rem;
+    cursor: pointer;
+    box-shadow: 5px 5px 0 var(--black);
+    letter-spacing: 3px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+    transition: all 0.2s;
+  }
+
+  .done-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 var(--black);
+  }
+
+  .done-btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: 2px 2px 0 var(--black);
+  }
+
+  /* ============ ACTION WORDS ============ */
+  .action-word {
+    position: fixed;
+    font-family: 'Bangers', cursive;
+    font-size: 3rem;
+    letter-spacing: 3px;
+    z-index: 999;
+    pointer-events: none;
+    animation: actionPop 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    text-shadow: 3px 3px 0 var(--black);
+    -webkit-text-stroke: 2px var(--black);
+    paint-order: stroke fill;
+  }
+
+  @keyframes actionPop {
+    0% { transform: scale(0) rotate(-30deg); opacity: 0; }
+    50% { transform: scale(1.3) rotate(5deg); opacity: 1; }
+    100% { transform: scale(1) rotate(-2deg); opacity: 0; }
+  }
+
+  /* ============ MODAL ============ */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .modal-overlay.active { display: flex; animation: fadeIn 0.3s; }
+
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+  .modal-card {
+    background: #FFFFF0;
+    border: 5px solid var(--black);
+    box-shadow: 10px 10px 0 var(--black);
+    padding: 2.5rem;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    background-image: radial-gradient(circle, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 10px 10px;
+  }
+
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.5) rotate(-5deg); }
+    to { opacity: 1; transform: scale(1) rotate(0); }
+  }
+
+  .modal-card h2 {
+    font-family: 'Bangers', cursive;
+    font-size: 2.2rem;
+    color: var(--electric-blue);
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 0 rgba(0,212,255,0.2);
+    margin-bottom: 1rem;
+  }
+
+  .modal-cup-display {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+  }
+
+  .modal-details {
+    text-align: left;
+    background: white;
+    border: 3px solid var(--black);
+    box-shadow: 3px 3px 0 var(--black);
+    padding: 1.2rem;
+    margin: 1.5rem 0;
+  }
+
+  .modal-details p { margin-bottom: 0.4rem; font-size: 1.05rem; }
+  .modal-details strong { font-family: 'Bangers', cursive; color: var(--grape); letter-spacing: 1px; }
+
+  .close-btn {
+    background: var(--pink);
+    color: white;
+    border: 3px solid var(--black);
+    padding: 0.7rem 2rem;
+    font-family: 'Bangers', cursive;
+    font-size: 1.3rem;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 var(--black);
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
+    transition: all 0.2s;
+  }
+
+  .close-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--black); }
+
+  /* Confetti */
+  .confetti-container {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; z-index: 1001; overflow: hidden;
+  }
+
+  .confetti-piece {
+    position: absolute; top: -10px;
+    animation: confettiFall linear forwards;
+  }
+
+  @keyframes confettiFall {
+    0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+  }
+
+  /* Charms on cup */
+  .cup-charm {
+    position: absolute;
+    font-size: 1.2rem;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));
+    animation: charmSwing 2s ease-in-out infinite;
+    transform-origin: top center;
+  }
+
+  @keyframes charmSwing {
+    0%, 100% { transform: rotate(-5deg); }
+    50% { transform: rotate(5deg); }
+  }
+
+  /* Footer */
+  .footer-panel {
+    background: linear-gradient(135deg, #FFE4F0, #E4F0FF);
+    padding: 2rem;
+    text-align: center;
+    transform: rotate(0.3deg);
+  }
+
+  .footer-panel p {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 1.5rem;
+    color: var(--grape);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav-bar">
+  <a href="index.html" class="nav-link">POPSICLES</a>
+  <a href="stanley.html" class="nav-link active">STANLEY CUPS</a>
+</nav>
+
+<div class="comic-page">
+
+  <!-- Hero -->
+  <div class="hero-panel comic-panel">
+    <h1>STANLEY CUP<br>CREATOR</h1>
+    <p class="hero-subtitle">Design your dream cup!</p>
+  </div>
+
+  <!-- Customizer -->
+  <div class="customizer-layout">
+
+    <!-- Controls -->
+    <div class="controls-panel comic-panel reveal">
+      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:3px dashed var(--black);">
+        <div style="width:14px;height:14px;border-radius:50%;background:var(--lime);border:2px solid var(--black);box-shadow:0 0 8px var(--lime);animation:blink 2s infinite;"></div>
+        <h3 style="font-family:'Bangers',cursive;font-size:1.8rem;color:var(--grape);letter-spacing:2px;">DESIGN STUDIO</h3>
+        <div style="width:14px;height:14px;border-radius:50%;background:var(--lime);border:2px solid var(--black);box-shadow:0 0 8px var(--lime);animation:blink 2s infinite;"></div>
+      </div>
+
+      @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+      <!-- Step 1: Colors -->
+      <div class="step-group step-1">
+        <div class="step-label">
+          <span class="step-number">1</span> PICK YOUR COLORS (UP TO 2)
+        </div>
+        <div class="color-row">
+          <label>Main Color:</label>
+          <div class="color-picker-wrap">
+            <input type="color" id="color1" value="#5BB5E0" oninput="updateCup()">
+          </div>
+          <span id="color1-name" style="font-family:'Bangers',cursive;letter-spacing:1px;color:#888;">Sky Blue</span>
+        </div>
+        <div class="color-row">
+          <label>Accent Color:</label>
+          <div class="color-picker-wrap">
+            <input type="color" id="color2" value="#3A8FBF" oninput="updateCup()">
+          </div>
+          <span id="color2-name" style="font-family:'Bangers',cursive;letter-spacing:1px;color:#888;">Deep Blue</span>
+        </div>
+      </div>
+
+      <!-- Step 2: Size -->
+      <div class="step-group step-2">
+        <div class="step-label">
+          <span class="step-number">2</span> CHOOSE YOUR SIZE
+        </div>
+        <div class="size-options">
+          <button class="size-btn" data-size="mini" onclick="selectSize(this)">
+            <span class="size-emoji">🥤</span> Mini (14oz)
+          </button>
+          <button class="size-btn selected" data-size="regular" onclick="selectSize(this)">
+            <span class="size-emoji">🧋</span> Regular (30oz)
+          </button>
+          <button class="size-btn" data-size="huge" onclick="selectSize(this)">
+            <span class="size-emoji">🪣</span> Huge (40oz)
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 3: Charms -->
+      <div class="step-group step-3">
+        <div class="step-label">
+          <span class="step-number">3</span> ADD CHARMS
+        </div>
+        <div class="charm-grid">
+          <button class="charm-btn" data-charm="star" onclick="toggleCharm(this)">
+            <span class="charm-emoji">⭐</span>Star
+          </button>
+          <button class="charm-btn" data-charm="heart" onclick="toggleCharm(this)">
+            <span class="charm-emoji">💖</span>Heart
+          </button>
+          <button class="charm-btn" data-charm="butterfly" onclick="toggleCharm(this)">
+            <span class="charm-emoji">🦋</span>Butterfly
+          </button>
+          <button class="charm-btn" data-charm="flower" onclick="toggleCharm(this)">
+            <span class="charm-emoji">🌸</span>Flower
+          </button>
+          <button class="charm-btn" data-charm="moon" onclick="toggleCharm(this)">
+            <span class="charm-emoji">🌙</span>Moon
+          </button>
+          <button class="charm-btn" data-charm="diamond" onclick="toggleCharm(this)">
+            <span class="charm-emoji">💎</span>Diamond
+          </button>
+          <button class="charm-btn" data-charm="rainbow" onclick="toggleCharm(this)">
+            <span class="charm-emoji">🌈</span>Rainbow
+          </button>
+          <button class="charm-btn" data-charm="cherry" onclick="toggleCharm(this)">
+            <span class="charm-emoji">🍒</span>Cherry
+          </button>
+          <button class="charm-btn" data-charm="lightning" onclick="toggleCharm(this)">
+            <span class="charm-emoji">⚡</span>Lightning
+          </button>
+          <button class="charm-btn" data-charm="crown" onclick="toggleCharm(this)">
+            <span class="charm-emoji">👑</span>Crown
+          </button>
+        </div>
+      </div>
+
+      <!-- Step 4: Name -->
+      <div class="step-group step-4">
+        <div class="step-label">
+          <span class="step-number">4</span> ADD YOUR NAME
+        </div>
+        <input type="text" class="name-input" id="cup-name" placeholder="Type your name here..." maxlength="12" oninput="updateCup()">
+      </div>
+
+      <!-- Step 5: Straw Color -->
+      <div class="step-group step-5">
+        <div class="step-label">
+          <span class="step-number">5</span> STRAW COLOR
+        </div>
+        <div class="color-row">
+          <label>Straw:</label>
+          <div class="color-picker-wrap">
+            <input type="color" id="straw-color" value="#FF69B4" oninput="updateCup()">
+          </div>
+          <span style="font-family:'Bangers',cursive;letter-spacing:1px;color:#888;">Translucent</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Preview -->
+    <div class="preview-panel">
+      <div class="preview-card comic-panel reveal">
+        <h3>YOUR CUP</h3>
+        <div class="cup-canvas" id="cup-canvas"></div>
+        <div class="cup-name-display" id="cup-name-display">Design your cup!</div>
+        <div class="cup-details" id="cup-size-display">SIZE: REGULAR (30OZ)</div>
+        <button class="done-btn" onclick="finishCup()">I LOVE IT! 🎉</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer-panel comic-panel">
+    <p>Made with love by Mia</p>
+    <span style="font-size:2rem;display:block;margin-top:0.5rem;letter-spacing:0.5rem;">🥤🧋🍹✨💖</span>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay" id="result-modal">
+  <div class="modal-card">
+    <h2 id="modal-title">YOUR CUP IS READY!</h2>
+    <div class="modal-cup-display" id="modal-cup"></div>
+    <div class="modal-details" id="modal-details"></div>
+    <button class="close-btn" onclick="closeModal()">MAKE ANOTHER ONE!</button>
+  </div>
+</div>
+
+<div class="confetti-container" id="confetti"></div>
+
+<script>
+  // State
+  const state = {
+    color1: '#5BB5E0',
+    color2: '#3A8FBF',
+    size: 'regular',
+    charms: [],
+    name: '',
+    strawColor: '#FF69B4'
+  };
+
+  const sizeConfig = {
+    mini:    { label: 'MINI (14OZ)',    height: 200, width: 100, topW: 88,  bottomW: 70 },
+    regular: { label: 'REGULAR (30OZ)', height: 280, width: 120, topW: 105, bottomW: 82 },
+    huge:    { label: 'HUGE (40OZ)',    height: 340, width: 140, topW: 122, bottomW: 95 }
+  };
+
+  const charmEmojis = {
+    star: '⭐', heart: '💖', butterfly: '🦋', flower: '🌸',
+    moon: '🌙', diamond: '💎', rainbow: '🌈', cherry: '🍒',
+    lightning: '⚡', crown: '👑'
+  };
+
+  const actionWords = ['NICE!','CUTE!','SLAY!','YES!','LOVE IT!','PRETTY!','COOL!','WOW!','FIRE!','ICONIC!'];
+  const actionColors = ['#FF2D87','#00D4FF','#7FFF00','#FFD700','#FF6B35','#9B59B6','#FF69B4','#00E5A0'];
+
+  function showActionWord(x, y) {
+    const word = document.createElement('div');
+    word.className = 'action-word';
+    word.textContent = actionWords[Math.floor(Math.random() * actionWords.length)];
+    word.style.left = x + 'px';
+    word.style.top = y + 'px';
+    word.style.color = actionColors[Math.floor(Math.random() * actionColors.length)];
+    document.body.appendChild(word);
+    setTimeout(() => word.remove(), 800);
+  }
+
+  function hexToRgb(hex) {
+    const r = parseInt(hex.slice(1,3), 16);
+    const g = parseInt(hex.slice(3,5), 16);
+    const b = parseInt(hex.slice(5,7), 16);
+    return { r, g, b };
+  }
+
+  function getColorName(hex) {
+    const { r, g, b } = hexToRgb(hex);
+    const hsl = rgbToHsl(r, g, b);
+    const h = hsl[0], s = hsl[1], l = hsl[2];
+    if (l < 15) return 'Black';
+    if (l > 90) return 'White';
+    if (s < 10) return l > 50 ? 'Light Gray' : 'Dark Gray';
+    if (h < 15) return l > 60 ? 'Salmon' : 'Red';
+    if (h < 40) return l > 60 ? 'Peach' : 'Orange';
+    if (h < 65) return l > 60 ? 'Light Yellow' : 'Yellow';
+    if (h < 80) return 'Lime';
+    if (h < 160) return l > 60 ? 'Mint' : 'Green';
+    if (h < 195) return l > 60 ? 'Light Teal' : 'Teal';
+    if (h < 240) return l > 60 ? 'Sky Blue' : 'Blue';
+    if (h < 280) return l > 60 ? 'Lavender' : 'Purple';
+    if (h < 330) return l > 60 ? 'Pink' : 'Magenta';
+    return l > 60 ? 'Rose' : 'Crimson';
+  }
+
+  function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    const max = Math.max(r,g,b), min = Math.min(r,g,b);
+    let h, s, l = (max + min) / 2;
+    if (max === min) { h = s = 0; }
+    else {
+      const d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+      else if (max === g) h = ((b - r) / d + 2) / 6;
+      else h = ((r - g) / d + 4) / 6;
+      h *= 360;
+    }
+    return [h, s * 100, l * 100];
+  }
+
+  function darken(hex, amount) {
+    const { r, g, b } = hexToRgb(hex);
+    return `rgb(${Math.max(0,r-amount)},${Math.max(0,g-amount)},${Math.max(0,b-amount)})`;
+  }
+
+  function lighten(hex, amount) {
+    const { r, g, b } = hexToRgb(hex);
+    return `rgb(${Math.min(255,r+amount)},${Math.min(255,g+amount)},${Math.min(255,b+amount)})`;
+  }
+
+  // ==================== RENDER CUP ====================
+  function renderCup(container, scale = 1) {
+    const cfg = sizeConfig[state.size];
+    const h = cfg.height * scale;
+    const w = cfg.width * scale;
+    const tw = cfg.topW * scale;
+    const bw = cfg.bottomW * scale;
+    const svgW = (w + 60) * scale;
+    const svgH = (h + 100) * scale;
+    const cx = svgW / 2;
+
+    const c1 = state.color1;
+    const c2 = state.color2;
+    const sc = state.strawColor;
+    const { r: sr, g: sg, b: sb } = hexToRgb(sc);
+
+    // Cup body coordinates
+    const lidH = 22 * scale;
+    const lidY = 50 * scale;
+    const bodyY = lidY + lidH;
+    const bodyH = h - lidH;
+
+    const tl = cx - tw/2;
+    const tr = cx + tw/2;
+    const bl = cx - bw/2;
+    const br = cx + bw/2;
+
+    let svg = `<svg width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" xmlns="http://www.w3.org/2000/svg">`;
+
+    // Defs
+    svg += `<defs>
+      <!-- Cup body gradient (two-tone) -->
+      <linearGradient id="cupGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="${c1}"/>
+        <stop offset="55%" stop-color="${c1}"/>
+        <stop offset="60%" stop-color="${c2}"/>
+        <stop offset="100%" stop-color="${c2}"/>
+      </linearGradient>
+      <!-- Metallic sheen -->
+      <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="rgba(255,255,255,0)" />
+        <stop offset="30%" stop-color="rgba(255,255,255,0.25)" />
+        <stop offset="50%" stop-color="rgba(255,255,255,0.4)" />
+        <stop offset="70%" stop-color="rgba(255,255,255,0.1)" />
+        <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+      </linearGradient>
+      <!-- Shadow gradient -->
+      <linearGradient id="shadow" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="rgba(0,0,0,0.15)" />
+        <stop offset="15%" stop-color="rgba(0,0,0,0)" />
+        <stop offset="85%" stop-color="rgba(0,0,0,0)" />
+        <stop offset="100%" stop-color="rgba(0,0,0,0.12)" />
+      </linearGradient>
+      <!-- Lid gradient -->
+      <linearGradient id="lidGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="${darken(c1, 20)}"/>
+        <stop offset="50%" stop-color="${lighten(c1, 20)}"/>
+        <stop offset="100%" stop-color="${darken(c1, 30)}"/>
+      </linearGradient>
+      <!-- Straw translucent -->
+      <linearGradient id="strawGrad" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0%" stop-color="rgba(${sr},${sg},${sb},0.45)"/>
+        <stop offset="40%" stop-color="rgba(${sr},${sg},${sb},0.25)"/>
+        <stop offset="60%" stop-color="rgba(${sr},${sg},${sb},0.35)"/>
+        <stop offset="100%" stop-color="rgba(${sr},${sg},${sb},0.5)"/>
+      </linearGradient>
+    </defs>`;
+
+    // Straw (behind cup)
+    const strawW = 8 * scale;
+    const strawTopY = 8 * scale;
+    const strawTilt = 12 * scale;
+    svg += `<rect x="${cx - strawW/2 + strawTilt}" y="${strawTopY}" width="${strawW}" height="${bodyY + bodyH * 0.3 - strawTopY}"
+      rx="${strawW/2}" fill="url(#strawGrad)" stroke="rgba(${sr},${sg},${sb},0.4)" stroke-width="${1 * scale}"
+      transform="rotate(-8, ${cx}, ${bodyY})"/>`;
+    // Straw shine
+    svg += `<rect x="${cx - strawW/2 + strawTilt + strawW*0.3}" y="${strawTopY}" width="${strawW * 0.25}" height="${bodyY + bodyH * 0.3 - strawTopY}"
+      rx="${2*scale}" fill="rgba(255,255,255,0.4)"
+      transform="rotate(-8, ${cx}, ${bodyY})"/>`;
+
+    // Cup body (trapezoid shape)
+    svg += `<path d="M${tl},${bodyY} L${tr},${bodyY} L${br},${bodyY + bodyH} L${bl},${bodyY + bodyH} Z"
+      fill="url(#cupGrad)" stroke="${darken(c2, 40)}" stroke-width="${2*scale}" stroke-linejoin="round"/>`;
+
+    // Two-tone divider line
+    const divY = bodyY + bodyH * 0.57;
+    const divLx = tl + (bl - tl) * 0.57;
+    const divRx = tr + (br - tr) * 0.57;
+    svg += `<line x1="${divLx}" y1="${divY}" x2="${divRx}" y2="${divY}"
+      stroke="${darken(c2, 20)}" stroke-width="${2*scale}" opacity="0.3"/>`;
+
+    // Metallic sheen overlay
+    svg += `<path d="M${tl},${bodyY} L${tr},${bodyY} L${br},${bodyY + bodyH} L${bl},${bodyY + bodyH} Z"
+      fill="url(#sheen)"/>`;
+
+    // Edge shadow
+    svg += `<path d="M${tl},${bodyY} L${tr},${bodyY} L${br},${bodyY + bodyH} L${bl},${bodyY + bodyH} Z"
+      fill="url(#shadow)"/>`;
+
+    // Condensation droplets
+    for (let i = 0; i < 5; i++) {
+      const dx = tl + Math.random() * (tr - tl) * 0.6 + (tr - tl) * 0.2;
+      const dy = bodyY + bodyH * 0.3 + Math.random() * bodyH * 0.5;
+      const dr = (Math.random() * 2 + 1.5) * scale;
+      svg += `<ellipse cx="${dx}" cy="${dy}" rx="${dr}" ry="${dr * 1.3}"
+        fill="rgba(255,255,255,0.35)" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>`;
+    }
+
+    // Name on cup
+    if (state.name) {
+      const nameY = bodyY + bodyH * 0.4;
+      const nameSize = Math.min(18 * scale, (tw * 0.8) / (state.name.length * 0.6));
+      svg += `<text x="${cx}" y="${nameY}" text-anchor="middle" font-family="'Gloria Hallelujah', cursive"
+        font-size="${nameSize}px" fill="white" stroke="${darken(c2, 50)}" stroke-width="${0.8*scale}"
+        paint-order="stroke fill" opacity="0.9">${escapeHtml(state.name)}</text>`;
+    }
+
+    // Lid
+    svg += `<rect x="${tl - 4*scale}" y="${lidY}" width="${tw + 8*scale}" height="${lidH}"
+      rx="${6*scale}" fill="url(#lidGrad)" stroke="${darken(c1, 40)}" stroke-width="${2*scale}"/>`;
+    // Lid shine
+    svg += `<rect x="${tl}" y="${lidY + 3*scale}" width="${tw * 0.6}" height="${4*scale}"
+      rx="${2*scale}" fill="rgba(255,255,255,0.3)"/>`;
+    // Straw hole
+    svg += `<ellipse cx="${cx + 5*scale}" cy="${lidY + lidH/2}" rx="${6*scale}" ry="${4*scale}"
+      fill="${darken(c1, 50)}" opacity="0.5"/>`;
+
+    // Bottom rim
+    svg += `<rect x="${bl - 2*scale}" y="${bodyY + bodyH - 3*scale}" width="${bw + 4*scale}" height="${6*scale}"
+      rx="${3*scale}" fill="${darken(c2, 30)}" stroke="${darken(c2, 50)}" stroke-width="${1*scale}"/>`;
+
+    // Handle
+    const handleX = tr + 2*scale;
+    const handleY1 = bodyY + bodyH * 0.15;
+    const handleY2 = bodyY + bodyH * 0.55;
+    const handleW = 18 * scale;
+    svg += `<path d="M${handleX},${handleY1} C${handleX + handleW},${handleY1} ${handleX + handleW},${handleY2} ${handleX - (tr-br)*0.35},${handleY2}"
+      fill="none" stroke="${darken(c1, 20)}" stroke-width="${5*scale}" stroke-linecap="round"/>`;
+    svg += `<path d="M${handleX},${handleY1} C${handleX + handleW},${handleY1} ${handleX + handleW},${handleY2} ${handleX - (tr-br)*0.35},${handleY2}"
+      fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="${3*scale}" stroke-linecap="round"/>`;
+
+    // Charms on handle
+    state.charms.forEach((charm, i) => {
+      const cy = handleY1 + (handleY2 - handleY1) * ((i + 1) / (state.charms.length + 1));
+      const chX = handleX + handleW - 2*scale;
+      svg += `<text x="${chX}" y="${cy}" font-size="${16*scale}px" text-anchor="middle"
+        style="animation: charmSwing 2s ease-in-out infinite ${i * 0.3}s">${charmEmojis[charm]}</text>`;
+    });
+
+    svg += '</svg>';
+    container.innerHTML = svg;
+  }
+
+  function escapeHtml(str) {
+    return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+
+  // ==================== UPDATE ====================
+  function updateCup() {
+    state.color1 = document.getElementById('color1').value;
+    state.color2 = document.getElementById('color2').value;
+    state.strawColor = document.getElementById('straw-color').value;
+    state.name = document.getElementById('cup-name').value;
+
+    document.getElementById('color1-name').textContent = getColorName(state.color1);
+    document.getElementById('color2-name').textContent = getColorName(state.color2);
+
+    renderCup(document.getElementById('cup-canvas'));
+
+    const nameDisp = document.getElementById('cup-name-display');
+    nameDisp.textContent = state.name ? `"${state.name}'s Cup"` : 'Design your cup!';
+
+    document.getElementById('cup-size-display').textContent = 'SIZE: ' + sizeConfig[state.size].label;
+  }
+
+  function selectSize(btn) {
+    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    state.size = btn.dataset.size;
+
+    const rect = btn.getBoundingClientRect();
+    showActionWord(rect.left + rect.width/2 - 30, rect.top - 40);
+
+    updateCup();
+  }
+
+  function toggleCharm(btn) {
+    const charm = btn.dataset.charm;
+    const idx = state.charms.indexOf(charm);
+    if (idx >= 0) {
+      state.charms.splice(idx, 1);
+      btn.classList.remove('selected');
+    } else {
+      state.charms.push(charm);
+      btn.classList.add('selected');
+
+      const rect = btn.getBoundingClientRect();
+      showActionWord(rect.left + rect.width/2 - 30, rect.top - 40);
+    }
+    updateCup();
+  }
+
+  // ==================== FINISH ====================
+  function finishCup() {
+    const modal = document.getElementById('result-modal');
+    const modalCup = document.getElementById('modal-cup');
+    renderCup(modalCup, 1.1);
+
+    const adjectives = ['Amazing','Gorgeous','Stunning','Fabulous','Incredible','Beautiful','Perfect','Iconic','Legendary','Dreamy'];
+    const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
+    document.getElementById('modal-title').textContent = `${adj.toUpperCase()} CUP ALERT!`;
+
+    let html = '';
+    html += `<p><strong>Colors:</strong> ${getColorName(state.color1)} + ${getColorName(state.color2)}</p>`;
+    html += `<p><strong>Size:</strong> ${sizeConfig[state.size].label}</p>`;
+    if (state.charms.length) html += `<p><strong>Charms:</strong> ${state.charms.map(c => charmEmojis[c]).join(' ')}</p>`;
+    if (state.name) html += `<p><strong>Name:</strong> ${escapeHtml(state.name)}</p>`;
+    html += `<p><strong>Straw:</strong> ${getColorName(state.strawColor)} (translucent)</p>`;
+    document.getElementById('modal-details').innerHTML = html;
+
+    modal.classList.add('active');
+    launchConfetti();
+  }
+
+  function closeModal() {
+    document.getElementById('result-modal').classList.remove('active');
+  }
+
+  // ==================== CONFETTI ====================
+  function launchConfetti() {
+    const container = document.getElementById('confetti');
+    container.innerHTML = '';
+    const colors = ['#FF2D87','#00D4FF','#7FFF00','#FFD700','#FF6B35','#9B59B6','#FF69B4','#00E5A0'];
+
+    for (let i = 0; i < 100; i++) {
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + '%';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+      piece.style.animationDelay = Math.random() * 0.8 + 's';
+      piece.style.width = (Math.random() * 10 + 6) + 'px';
+      piece.style.height = (Math.random() * 10 + 6) + 'px';
+      const shapes = ['50%','0',''];
+      piece.style.borderRadius = shapes[Math.floor(Math.random() * shapes.length)];
+      container.appendChild(piece);
+    }
+    setTimeout(() => { container.innerHTML = ''; }, 4000);
+  }
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Modal close
+  document.getElementById('result-modal').addEventListener('click', e => {
+    if (e.target === e.currentTarget) closeModal();
+  });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+  // Initial render
+  updateCup();
+</script>
+</body>
+</html>
