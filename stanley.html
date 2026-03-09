@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mia's Stanley Cup Creator</title>
+<title>Le Grand Stanley Palace</title>
 <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Gaegu:wght@400;700&family=Gloria+Hallelujah&family=Bangers&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -16,8 +16,11 @@
     --grape: #9B59B6;
     --mint: #00E5A0;
     --black: #1a1a2e;
-    --comic-border: 4px solid var(--black);
-    --comic-shadow: 6px 6px 0px var(--black);
+    --lobby-cream: #FDF6EC;
+    --lobby-gold: #C9A84C;
+    --lobby-dark-gold: #A07C2A;
+    --lobby-blush: #F5E1D0;
+    --lobby-marble: #F0EDE8;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -25,10 +28,9 @@
   body {
     font-family: 'Patrick Hand', cursive;
     font-size: 18px;
-    background: #FFF8DC;
+    background: var(--lobby-cream);
     overflow-x: hidden;
-    background-image: radial-gradient(circle, #ddd 1px, transparent 1px);
-    background-size: 20px 20px;
+    min-height: 100vh;
   }
 
   /* ============ NAV BAR ============ */
@@ -61,144 +63,183 @@
     box-shadow: 5px 5px 0 var(--black);
   }
 
-  .nav-link.active {
-    background: var(--electric-blue);
-    color: white;
-  }
-
   .nav-link:first-child { background: #FFE0EE; }
   .nav-link:last-child { background: #E0F0FF; }
-  .nav-link:last-child.active { background: var(--electric-blue); }
 
-  /* ============ COMIC PANEL ============ */
-  .comic-panel {
-    border: var(--comic-border);
-    box-shadow: var(--comic-shadow);
+  /* ============ HOTEL LOBBY HEADER ============ */
+  .lobby-header {
+    background: linear-gradient(180deg, #2C1810 0%, #4A2C1A 40%, #3D2215 100%);
+    padding: 3rem 2rem 2rem;
+    text-align: center;
     position: relative;
     overflow: hidden;
+    border-bottom: 6px solid var(--lobby-gold);
   }
 
-  .comic-panel::after {
+  .lobby-header::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
-    background-image: radial-gradient(circle, rgba(0,0,0,0.04) 1px, transparent 1px);
-    background-size: 8px 8px;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 40px,
+      rgba(201,168,76,0.05) 40px,
+      rgba(201,168,76,0.05) 41px
+    );
     pointer-events: none;
-    z-index: 0;
   }
 
-  .comic-panel > * { position: relative; z-index: 1; }
-
-  /* ============ PAGE LAYOUT ============ */
-  .comic-page {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-
-  .panel-title {
-    font-family: 'Bangers', cursive;
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    letter-spacing: 3px;
-    text-shadow: 3px 3px 0 rgba(0,0,0,0.1);
-    margin-bottom: 0.3rem;
-  }
-
-  .panel-subtitle {
-    font-family: 'Gloria Hallelujah', cursive;
-    font-size: 1.1rem;
-    color: #666;
-    margin-bottom: 1.5rem;
-  }
-
-  /* ============ HERO ============ */
-  .hero-panel {
-    background: linear-gradient(135deg, #D4F0FF, #E8D5FF, #FFD5E8);
-    padding: 2.5rem 2rem;
-    text-align: center;
-    transform: rotate(-0.3deg);
-    border-width: 5px;
-  }
-
-  .hero-panel h1 {
-    font-family: 'Bangers', cursive;
-    font-size: clamp(2.8rem, 9vw, 6rem);
-    line-height: 1;
-    color: var(--black);
-    text-shadow: 4px 4px 0 var(--electric-blue), 8px 8px 0 var(--grape);
-    letter-spacing: 4px;
+  .hotel-stars {
+    color: var(--lobby-gold);
+    font-size: 1.5rem;
+    letter-spacing: 8px;
     margin-bottom: 0.5rem;
-    animation: heroSlam 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s both;
+    animation: fadeDown 0.6s ease-out 0.1s both;
+    text-shadow: 0 0 10px rgba(201,168,76,0.5);
   }
 
-  @keyframes heroSlam {
-    from { transform: scale(2) rotate(-10deg); opacity: 0; }
-    60% { transform: scale(1.1) rotate(2deg); }
-    to { transform: scale(1) rotate(0); opacity: 1; }
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 
-  .hero-subtitle {
+  .lobby-header h1 {
+    font-family: 'Bangers', cursive;
+    font-size: clamp(2.5rem, 8vw, 5rem);
+    color: var(--lobby-gold);
+    letter-spacing: 6px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.5), 0 0 30px rgba(201,168,76,0.3);
+    margin-bottom: 0.3rem;
+    animation: fadeDown 0.6s ease-out 0.3s both;
+  }
+
+  .lobby-header .subtitle {
     font-family: 'Gloria Hallelujah', cursive;
-    font-size: clamp(1.1rem, 3vw, 1.6rem);
-    color: var(--grape);
-    animation: slideUp 0.5s ease-out 0.5s both;
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: var(--lobby-blush);
+    letter-spacing: 3px;
+    animation: fadeDown 0.6s ease-out 0.5s both;
   }
 
-  @keyframes slideUp {
-    from { transform: translateY(30px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+  .bell-emoji {
+    display: block;
+    font-size: 3rem;
+    margin-top: 1rem;
+    animation: fadeDown 0.6s ease-out 0.7s both;
+    filter: drop-shadow(0 0 8px rgba(201,168,76,0.4));
+    cursor: pointer;
+    transition: transform 0.2s;
   }
 
-  /* ============ CUSTOMIZER LAYOUT ============ */
-  .customizer-layout {
+  .bell-emoji:hover { transform: scale(1.2) rotate(-10deg); }
+
+  /* ============ MAIN LAYOUT ============ */
+  .hotel-lobby {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
     display: grid;
-    grid-template-columns: 1fr 400px;
-    gap: 1.5rem;
+    grid-template-columns: 1fr 360px;
+    gap: 2rem;
     align-items: start;
   }
 
   @media (max-width: 900px) {
-    .customizer-layout { grid-template-columns: 1fr; }
-    .preview-panel { order: -1; }
+    .hotel-lobby { grid-template-columns: 1fr; }
+    .preview-side { order: -1; }
   }
 
-  /* ============ CONTROLS PANEL ============ */
-  .controls-panel {
-    background: linear-gradient(180deg, #FFFDE8, #F0F8FF);
-    padding: 2rem;
-    transform: rotate(0.2deg);
+  /* ============ REGISTRATION FORM ============ */
+  .reg-form {
+    background: white;
+    border: 3px solid var(--black);
+    box-shadow: 6px 6px 0 var(--black);
+    position: relative;
+    overflow: hidden;
   }
 
-  .step-group {
-    margin-bottom: 2rem;
+  .form-header {
+    background: linear-gradient(135deg, #4A2C1A, #3D2215);
+    padding: 1.2rem 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    border-bottom: 4px solid var(--lobby-gold);
   }
 
-  .step-label {
+  .form-header h2 {
     font-family: 'Bangers', cursive;
-    font-size: 1.2rem;
-    letter-spacing: 1px;
-    margin-bottom: 0.6rem;
+    font-size: 1.6rem;
+    color: var(--lobby-gold);
+    letter-spacing: 3px;
+  }
+
+  .form-header .bell-icon { font-size: 1.4rem; }
+
+  .vacancy-light {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-family: 'Bangers', cursive;
+    font-size: 0.9rem;
+    color: var(--lime);
+    letter-spacing: 2px;
+  }
+
+  .vacancy-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--lime);
+    box-shadow: 0 0 8px var(--lime);
+    animation: blink 2s ease-in-out infinite;
+  }
+
+  @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
+
+  .form-body {
+    padding: 2rem;
+  }
+
+  /* Form field groups */
+  .field-group {
+    margin-bottom: 1.8rem;
+    position: relative;
+  }
+
+  .field-label {
+    font-family: 'Bangers', cursive;
+    font-size: 1.1rem;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    padding-bottom: 0.3rem;
+    border-bottom: 2px dashed #eee;
   }
 
-  .step-number {
-    width: 30px;
-    height: 30px;
+  .field-icon {
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     color: white;
-    font-size: 1rem;
+    font-size: 0.85rem;
     font-weight: 700;
     border: 2px solid var(--black);
-    box-shadow: 2px 2px 0 var(--black);
+    flex-shrink: 0;
+  }
+
+  .field-label .room-num {
+    margin-left: auto;
+    font-size: 0.8rem;
+    color: #bbb;
+    letter-spacing: 1px;
   }
 
   /* Color pickers */
@@ -207,24 +248,28 @@
     align-items: center;
     gap: 1rem;
     margin-bottom: 0.8rem;
-    flex-wrap: wrap;
+    padding: 0.5rem 0.8rem;
+    background: #FAFAF5;
+    border: 2px solid #eee;
+    border-radius: 8px;
   }
 
   .color-row label {
-    font-family: 'Bangers', cursive;
+    font-family: 'Patrick Hand', cursive;
     font-size: 1rem;
-    letter-spacing: 1px;
-    min-width: 100px;
+    min-width: 90px;
+    color: #555;
   }
 
   .color-picker-wrap {
-    position: relative;
-    width: 60px;
-    height: 40px;
+    width: 50px;
+    height: 34px;
     border: 3px solid var(--black);
-    box-shadow: 3px 3px 0 var(--black);
+    box-shadow: 2px 2px 0 var(--black);
     overflow: hidden;
     cursor: pointer;
+    border-radius: 4px;
+    position: relative;
   }
 
   .color-picker-wrap input[type="color"] {
@@ -237,180 +282,271 @@
     padding: 0;
   }
 
-  /* Size buttons */
-  .size-options {
+  .color-name {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 0.85rem;
+    color: #999;
+  }
+
+  /* Size selector as room type */
+  .room-type-grid {
     display: flex;
     gap: 0.8rem;
     flex-wrap: wrap;
   }
 
-  .size-btn {
-    background: white;
-    border: 3px solid var(--black);
-    box-shadow: 3px 3px 0 var(--black);
-    padding: 0.6rem 1.2rem;
-    cursor: pointer;
-    font-family: 'Patrick Hand', cursive;
-    font-size: 1rem;
-    transition: all 0.2s;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
-
-  .size-btn:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0 var(--black);
-  }
-
-  .size-btn.selected {
-    background: #E0F7FF;
-    border-color: var(--electric-blue);
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 var(--black);
-    font-weight: 700;
-  }
-
-  .size-emoji { font-size: 1.3rem; }
-
-  /* Charms */
-  .charm-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-    gap: 0.6rem;
-  }
-
-  .charm-btn {
-    background: white;
-    border: 3px solid var(--black);
-    box-shadow: 3px 3px 0 var(--black);
-    padding: 0.5rem;
+  .room-btn {
+    flex: 1;
+    min-width: 100px;
+    background: #FAFAF5;
+    border: 3px solid #ddd;
+    border-radius: 12px;
+    padding: 1rem 0.8rem;
     cursor: pointer;
     text-align: center;
     font-family: 'Patrick Hand', cursive;
-    font-size: 0.85rem;
-    transition: all 0.2s;
+    font-size: 0.95rem;
+    transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  .charm-btn:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 5px 5px 0 var(--black);
+  .room-btn:hover {
+    border-color: var(--lobby-gold);
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   }
 
-  .charm-btn.selected {
-    background: #FFF0F5;
-    border-color: var(--pink);
-    transform: translate(2px, 2px);
-    box-shadow: 1px 1px 0 var(--black);
+  .room-btn.selected {
+    background: linear-gradient(135deg, #FDF6EC, #F5E1D0);
+    border-color: var(--lobby-gold);
+    box-shadow: 0 4px 12px rgba(201,168,76,0.2), inset 0 0 0 2px rgba(201,168,76,0.1);
+    font-weight: 700;
   }
 
-  .charm-btn .charm-emoji { font-size: 1.5rem; display: block; margin-bottom: 0.2rem; }
+  .room-btn .room-emoji {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
 
-  /* Name input */
-  .name-input {
-    width: 100%;
-    padding: 0.7rem 1rem;
+  .room-btn .room-size {
+    font-family: 'Bangers', cursive;
+    font-size: 0.8rem;
+    color: #999;
+    letter-spacing: 1px;
+    display: block;
+    margin-top: 0.2rem;
+  }
+
+  /* Charms as "amenities" */
+  .amenity-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+    gap: 0.5rem;
+  }
+
+  .amenity-btn {
+    background: #FAFAF5;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 0.5rem 0.3rem;
+    cursor: pointer;
+    text-align: center;
     font-family: 'Patrick Hand', cursive;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+    color: #666;
+  }
+
+  .amenity-btn:hover {
+    border-color: var(--lobby-gold);
+    background: #FDF6EC;
+  }
+
+  .amenity-btn.selected {
+    background: linear-gradient(135deg, #FFF0F5, #FDF6EC);
+    border-color: var(--pink);
+    color: var(--pink);
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(255,45,135,0.15);
+  }
+
+  .amenity-btn .amenity-emoji {
+    font-size: 1.4rem;
+    display: block;
+    margin-bottom: 0.15rem;
+  }
+
+  /* Name input styled as guest registry */
+  .guest-input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    font-family: 'Gloria Hallelujah', cursive;
     font-size: 1.1rem;
-    border: 3px solid var(--black);
-    box-shadow: 3px 3px 0 var(--black);
-    background: white;
+    border: none;
+    border-bottom: 3px solid var(--black);
+    background: transparent;
     outline: none;
-    transition: box-shadow 0.2s;
+    transition: border-color 0.2s;
   }
 
-  .name-input:focus {
-    box-shadow: 5px 5px 0 var(--electric-blue);
-    border-color: var(--electric-blue);
+  .guest-input:focus {
+    border-bottom-color: var(--lobby-gold);
   }
 
-  .name-input::placeholder { color: #bbb; }
+  .guest-input::placeholder {
+    color: #ccc;
+    font-family: 'Gloria Hallelujah', cursive;
+  }
 
-  /* Step colors */
-  .step-1 .step-number { background: var(--electric-blue); }
-  .step-1 .step-label { color: #0099BB; }
-  .step-2 .step-number { background: var(--grape); }
-  .step-2 .step-label { color: var(--grape); }
-  .step-3 .step-number { background: var(--pink); }
-  .step-3 .step-label { color: var(--pink); }
-  .step-4 .step-number { background: var(--orange); }
-  .step-4 .step-label { color: var(--orange); }
-  .step-5 .step-number { background: var(--mint); }
-  .step-5 .step-label { color: #00AA77; }
+  .input-hint {
+    font-size: 0.8rem;
+    color: #bbb;
+    margin-top: 0.3rem;
+    font-style: italic;
+  }
 
-  /* ============ PREVIEW PANEL ============ */
-  .preview-panel {
+  /* Straw color */
+  .straw-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0.8rem;
+    background: #FAFAF5;
+    border: 2px solid #eee;
+    border-radius: 8px;
+  }
+
+  .straw-row label {
+    font-family: 'Patrick Hand', cursive;
+    font-size: 1rem;
+    color: #555;
+  }
+
+  .translucent-tag {
+    font-family: 'Bangers', cursive;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    background: rgba(0,0,0,0.06);
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    color: #999;
+  }
+
+  /* Field colors */
+  .field-colors .field-icon { background: var(--electric-blue); }
+  .field-colors .field-label { color: #0099BB; }
+  .field-size .field-icon { background: var(--grape); }
+  .field-size .field-label { color: var(--grape); }
+  .field-charms .field-icon { background: var(--pink); }
+  .field-charms .field-label { color: var(--pink); }
+  .field-name .field-icon { background: var(--orange); }
+  .field-name .field-label { color: var(--orange); }
+  .field-straw .field-icon { background: var(--mint); }
+  .field-straw .field-label { color: #00AA77; }
+
+  /* ============ PREVIEW SIDE (ROOM KEY CARD) ============ */
+  .preview-side {
     position: sticky;
     top: 80px;
   }
 
-  .preview-card {
-    background: linear-gradient(180deg, #F0F8FF, #FFF0F8);
-    padding: 2rem 1.5rem;
-    text-align: center;
-    transform: rotate(-0.5deg);
+  .key-card {
+    background: linear-gradient(180deg, #FDF6EC 0%, #F5E1D0 100%);
+    border: 3px solid var(--black);
+    box-shadow: 6px 6px 0 var(--black);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
   }
 
-  .preview-card h3 {
+  .key-card-header {
+    background: linear-gradient(135deg, #4A2C1A, #3D2215);
+    padding: 1rem 1.5rem;
+    text-align: center;
+    border-bottom: 3px solid var(--lobby-gold);
+  }
+
+  .key-card-header h3 {
     font-family: 'Bangers', cursive;
-    font-size: 1.6rem;
-    color: var(--electric-blue);
-    letter-spacing: 2px;
-    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    color: var(--lobby-gold);
+    letter-spacing: 3px;
+  }
+
+  .key-card-header .room-tag {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 0.85rem;
+    color: var(--lobby-blush);
+    display: block;
+    margin-top: 0.2rem;
+  }
+
+  .key-card-body {
+    padding: 1.5rem;
+    text-align: center;
   }
 
   .cup-canvas {
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    min-height: 380px;
+    min-height: 350px;
     margin-bottom: 1rem;
   }
 
-  .cup-name-display {
+  .guest-name-display {
     font-family: 'Bangers', cursive;
     font-size: 1.3rem;
-    color: var(--grape);
+    color: var(--lobby-dark-gold);
     letter-spacing: 1px;
     min-height: 2rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.3rem;
   }
 
-  .cup-details {
+  .size-tag {
     font-family: 'Bangers', cursive;
-    font-size: 1rem;
-    padding: 0.3rem 1rem;
+    font-size: 0.9rem;
+    padding: 0.2rem 0.8rem;
     display: inline-block;
-    background: var(--sunny);
-    border: 2px solid var(--black);
-    box-shadow: 2px 2px 0 var(--black);
+    background: var(--lobby-gold);
+    color: white;
+    border-radius: 4px;
     letter-spacing: 1px;
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.15);
   }
 
-  /* Done button */
-  .done-btn {
+  /* Magnetic stripe at bottom */
+  .mag-stripe {
+    height: 30px;
+    background: linear-gradient(180deg, #333 0%, #1a1a1a 30%, #333 50%, #222 70%, #1a1a1a 100%);
+    margin-top: 1rem;
+  }
+
+  /* Check in button */
+  .checkin-btn {
     display: block;
-    width: 100%;
-    margin-top: 1.5rem;
+    width: calc(100% - 3rem);
+    margin: 0 1.5rem 1.5rem;
     padding: 1rem;
     border: 4px solid var(--black);
-    background: linear-gradient(135deg, var(--electric-blue), var(--grape));
+    background: linear-gradient(135deg, var(--lobby-gold), var(--lobby-dark-gold));
     color: white;
     font-family: 'Bangers', cursive;
-    font-size: 1.6rem;
+    font-size: 1.5rem;
     cursor: pointer;
     box-shadow: 5px 5px 0 var(--black);
-    letter-spacing: 3px;
+    letter-spacing: 4px;
     text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
     transition: all 0.2s;
+    border-radius: 8px;
   }
 
-  .done-btn:hover {
+  .checkin-btn:hover {
     transform: translate(-2px, -2px);
     box-shadow: 7px 7px 0 var(--black);
   }
 
-  .done-btn:active {
+  .checkin-btn:active {
     transform: translate(3px, 3px);
     box-shadow: 2px 2px 0 var(--black);
   }
@@ -435,7 +571,7 @@
     100% { transform: scale(1) rotate(-2deg); opacity: 0; }
   }
 
-  /* ============ MODAL ============ */
+  /* ============ MODAL (Booking Confirmation) ============ */
   .modal-overlay {
     position: fixed;
     top: 0; left: 0; right: 0; bottom: 0;
@@ -451,56 +587,99 @@
 
   @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-  .modal-card {
-    background: #FFFFF0;
-    border: 5px solid var(--black);
-    box-shadow: 10px 10px 0 var(--black);
-    padding: 2.5rem;
-    max-width: 500px;
+  .receipt-card {
+    background: #FFFFF5;
+    border: 3px solid var(--black);
+    box-shadow: 8px 8px 0 var(--black);
+    padding: 0;
+    max-width: 460px;
     width: 100%;
     text-align: center;
     animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
-    background-image: radial-gradient(circle, rgba(0,0,0,0.03) 1px, transparent 1px);
-    background-size: 10px 10px;
+    position: relative;
+    overflow: hidden;
   }
 
   @keyframes popIn {
-    from { opacity: 0; transform: scale(0.5) rotate(-5deg); }
+    from { opacity: 0; transform: scale(0.5) rotate(-3deg); }
     to { opacity: 1; transform: scale(1) rotate(0); }
   }
 
-  .modal-card h2 {
-    font-family: 'Bangers', cursive;
-    font-size: 2.2rem;
-    color: var(--electric-blue);
-    letter-spacing: 3px;
-    text-shadow: 3px 3px 0 rgba(0,212,255,0.2);
-    margin-bottom: 1rem;
+  .receipt-header {
+    background: linear-gradient(135deg, #4A2C1A, #3D2215);
+    padding: 1.5rem;
+    border-bottom: 4px solid var(--lobby-gold);
   }
 
-  .modal-cup-display {
+  .receipt-header h2 {
+    font-family: 'Bangers', cursive;
+    font-size: 1.8rem;
+    color: var(--lobby-gold);
+    letter-spacing: 4px;
+    text-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+  }
+
+  .receipt-header .conf-num {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 0.9rem;
+    color: var(--lobby-blush);
+    margin-top: 0.3rem;
+    display: block;
+  }
+
+  .receipt-body {
+    padding: 1.5rem 2rem;
+  }
+
+  .receipt-cup {
     display: flex;
     justify-content: center;
+    margin: 0.5rem 0 1rem;
+  }
+
+  .receipt-details {
+    text-align: left;
+    border-top: 2px dashed #ddd;
+    border-bottom: 2px dashed #ddd;
+    padding: 1rem 0;
     margin: 1rem 0;
   }
 
-  .modal-details {
-    text-align: left;
-    background: white;
-    border: 3px solid var(--black);
-    box-shadow: 3px 3px 0 var(--black);
-    padding: 1.2rem;
-    margin: 1.5rem 0;
+  .receipt-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3rem 0;
+    font-size: 1rem;
   }
 
-  .modal-details p { margin-bottom: 0.4rem; font-size: 1.05rem; }
-  .modal-details strong { font-family: 'Bangers', cursive; color: var(--grape); letter-spacing: 1px; }
+  .receipt-row .r-label {
+    font-family: 'Bangers', cursive;
+    color: var(--lobby-dark-gold);
+    letter-spacing: 1px;
+  }
 
-  .close-btn {
-    background: var(--pink);
+  .receipt-row .r-value {
+    font-family: 'Gloria Hallelujah', cursive;
+    color: #555;
+  }
+
+  .receipt-total {
+    font-family: 'Bangers', cursive;
+    font-size: 1.3rem;
+    color: var(--pink);
+    letter-spacing: 2px;
+    margin-top: 0.5rem;
+  }
+
+  .receipt-footer {
+    padding: 1rem 2rem 1.5rem;
+  }
+
+  .checkout-btn {
+    background: linear-gradient(135deg, var(--pink), var(--orange));
     color: white;
     border: 3px solid var(--black);
-    padding: 0.7rem 2rem;
+    padding: 0.8rem 2rem;
     font-family: 'Bangers', cursive;
     font-size: 1.3rem;
     cursor: pointer;
@@ -508,9 +687,167 @@
     letter-spacing: 2px;
     text-shadow: 1px 1px 0 rgba(0,0,0,0.3);
     transition: all 0.2s;
+    border-radius: 6px;
+    width: 100%;
   }
 
-  .close-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--black); }
+  .checkout-btn:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 var(--black); }
+
+  /* Rating stars */
+  .rating-section {
+    margin: 1rem 0;
+  }
+
+  .rating-label {
+    font-family: 'Bangers', cursive;
+    font-size: 1.1rem;
+    color: var(--lobby-dark-gold);
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+  }
+
+  .star-rating {
+    display: flex;
+    justify-content: center;
+    gap: 0.3rem;
+  }
+
+  .rate-star {
+    font-size: 2.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    filter: grayscale(100%) opacity(0.3);
+  }
+
+  .rate-star:hover,
+  .rate-star.active {
+    filter: none;
+    transform: scale(1.15);
+  }
+
+  .rate-star.active {
+    animation: starPop 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes starPop {
+    from { transform: scale(0.5); }
+    to { transform: scale(1.15); }
+  }
+
+  .rating-message {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 1rem;
+    color: var(--grape);
+    margin-top: 0.5rem;
+    min-height: 1.5rem;
+  }
+
+  /* Reviews section */
+  .reviews-section {
+    max-width: 1100px;
+    margin: 0 auto 2rem;
+    padding: 0 1.5rem;
+  }
+
+  .reviews-panel {
+    background: white;
+    border: 3px solid var(--black);
+    box-shadow: 6px 6px 0 var(--black);
+    overflow: hidden;
+  }
+
+  .reviews-header {
+    background: linear-gradient(135deg, #4A2C1A, #3D2215);
+    padding: 1rem 1.5rem;
+    border-bottom: 4px solid var(--lobby-gold);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .reviews-header h3 {
+    font-family: 'Bangers', cursive;
+    font-size: 1.4rem;
+    color: var(--lobby-gold);
+    letter-spacing: 3px;
+  }
+
+  .avg-rating {
+    font-family: 'Bangers', cursive;
+    color: var(--sunny);
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+  }
+
+  .reviews-body {
+    padding: 1.5rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .review-card {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: #FAFAF5;
+    border: 2px solid #eee;
+    border-radius: 10px;
+    align-items: flex-start;
+    transition: transform 0.2s;
+  }
+
+  .review-card:hover { transform: translateX(4px); }
+
+  .review-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--lobby-gold), var(--lobby-dark-gold));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    border: 2px solid var(--black);
+  }
+
+  .review-content { flex: 1; }
+
+  .review-name {
+    font-family: 'Bangers', cursive;
+    font-size: 1rem;
+    letter-spacing: 1px;
+    color: var(--black);
+  }
+
+  .review-stars {
+    font-size: 0.9rem;
+    letter-spacing: 2px;
+    margin: 0.1rem 0;
+  }
+
+  .review-text {
+    font-family: 'Gloria Hallelujah', cursive;
+    font-size: 0.9rem;
+    color: #666;
+    line-height: 1.4;
+  }
+
+  .your-review {
+    border-color: var(--lobby-gold);
+    background: linear-gradient(135deg, #FDF6EC, #FFFFF5);
+  }
+
+  .new-badge {
+    font-family: 'Bangers', cursive;
+    font-size: 0.7rem;
+    background: var(--pink);
+    color: white;
+    padding: 0.1rem 0.4rem;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    margin-left: 0.5rem;
+  }
 
   /* Confetti */
   .confetti-container {
@@ -529,44 +866,39 @@
     100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
   }
 
-  /* Charms on cup */
-  .cup-charm {
-    position: absolute;
-    font-size: 1.2rem;
-    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.3));
-    animation: charmSwing 2s ease-in-out infinite;
-    transform-origin: top center;
-  }
-
-  @keyframes charmSwing {
-    0%, 100% { transform: rotate(-5deg); }
-    50% { transform: rotate(5deg); }
-  }
-
   /* Footer */
-  .footer-panel {
-    background: linear-gradient(135deg, #FFE4F0, #E4F0FF);
-    padding: 2rem;
+  .hotel-footer {
+    max-width: 1100px;
+    margin: 2rem auto;
+    padding: 1.5rem;
     text-align: center;
-    transform: rotate(0.3deg);
+    background: linear-gradient(135deg, #4A2C1A, #3D2215);
+    border: 3px solid var(--black);
+    box-shadow: 6px 6px 0 var(--black);
+    border-top: 4px solid var(--lobby-gold);
   }
 
-  .footer-panel p {
+  .hotel-footer p {
     font-family: 'Gloria Hallelujah', cursive;
-    font-size: 1.5rem;
-    color: var(--grape);
+    font-size: 1.3rem;
+    color: var(--lobby-gold);
   }
 
+  .hotel-footer .footer-icons {
+    font-size: 1.5rem;
+    display: block;
+    margin-top: 0.3rem;
+    letter-spacing: 0.5rem;
+  }
+
+  /* Reveal */
   .reveal {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translateY(20px);
     transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
   }
 
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
 </style>
 </head>
 <body>
@@ -574,155 +906,244 @@
 <!-- Nav -->
 <nav class="nav-bar">
   <a href="index.html" class="nav-link">POPSICLES</a>
-  <a href="stanley.html" class="nav-link active">STANLEY CUPS</a>
+  <a href="stanley.html" class="nav-link" style="background:var(--electric-blue);color:white;">STANLEY CUPS</a>
 </nav>
 
-<div class="comic-page">
+<!-- ==================== HOTEL LOBBY HEADER ==================== -->
+<div class="lobby-header">
+  <div class="hotel-stars">&#9733; &#9733; &#9733; &#9733; &#9733;</div>
+  <h1>LE GRAND STANLEY PALACE</h1>
+  <p class="subtitle">A Five-Star Cup Experience</p>
+  <span class="bell-emoji" onclick="this.style.transform='scale(1.3) rotate(-15deg)'; setTimeout(()=>this.style.transform='',300)">🛎️</span>
+</div>
 
-  <!-- Hero -->
-  <div class="hero-panel comic-panel">
-    <h1>STANLEY CUP<br>CREATOR</h1>
-    <p class="hero-subtitle">Design your dream cup!</p>
-  </div>
+<!-- ==================== MAIN LOBBY ==================== -->
+<div class="hotel-lobby">
 
-  <!-- Customizer -->
-  <div class="customizer-layout">
-
-    <!-- Controls -->
-    <div class="controls-panel comic-panel reveal">
-      <div style="display:flex;align-items:center;gap:0.6rem;margin-bottom:1.5rem;padding-bottom:0.8rem;border-bottom:3px dashed var(--black);">
-        <div style="width:14px;height:14px;border-radius:50%;background:var(--lime);border:2px solid var(--black);box-shadow:0 0 8px var(--lime);animation:blink 2s infinite;"></div>
-        <h3 style="font-family:'Bangers',cursive;font-size:1.8rem;color:var(--grape);letter-spacing:2px;">DESIGN STUDIO</h3>
-        <div style="width:14px;height:14px;border-radius:50%;background:var(--lime);border:2px solid var(--black);box-shadow:0 0 8px var(--lime);animation:blink 2s infinite;"></div>
+  <!-- REGISTRATION FORM -->
+  <div class="reg-form reveal">
+    <div class="form-header">
+      <span class="bell-icon">🛎️</span>
+      <h2>GUEST REGISTRATION</h2>
+      <div class="vacancy-light">
+        <div class="vacancy-dot"></div>
+        VACANCY
       </div>
+    </div>
 
-      <!-- Step 1: Colors -->
-      <div class="step-group step-1">
-        <div class="step-label">
-          <span class="step-number">1</span> PICK YOUR COLORS (UP TO 2)
+    <div class="form-body">
+
+      <!-- Colors -->
+      <div class="field-group field-colors">
+        <div class="field-label">
+          <span class="field-icon">1</span> CUP COLORS
+          <span class="room-num">FLOOR 1</span>
         </div>
         <div class="color-row">
-          <label>Main Color:</label>
+          <label>Main:</label>
           <div class="color-picker-wrap">
             <input type="color" id="color1" value="#5BB5E0" oninput="updateCup()">
           </div>
-          <span id="color1-name" style="font-family:'Bangers',cursive;letter-spacing:1px;color:#888;">Sky Blue</span>
+          <span class="color-name" id="color1-name">Sky Blue</span>
         </div>
         <div class="color-row">
-          <label>Accent Color:</label>
+          <label>Accent:</label>
           <div class="color-picker-wrap">
             <input type="color" id="color2" value="#3A8FBF" oninput="updateCup()">
           </div>
-          <span id="color2-name" style="font-family:'Bangers',cursive;letter-spacing:1px;color:#888;">Deep Blue</span>
+          <span class="color-name" id="color2-name">Deep Blue</span>
         </div>
       </div>
 
-      <!-- Step 2: Size -->
-      <div class="step-group step-2">
-        <div class="step-label">
-          <span class="step-number">2</span> CHOOSE YOUR SIZE
+      <!-- Size as "Room Type" -->
+      <div class="field-group field-size">
+        <div class="field-label">
+          <span class="field-icon">2</span> ROOM TYPE
+          <span class="room-num">FLOOR 2</span>
         </div>
-        <div class="size-options">
-          <button class="size-btn" data-size="mini" onclick="selectSize(this)">
-            <span class="size-emoji">🥤</span> Mini (14oz)
+        <div class="room-type-grid">
+          <button class="room-btn" data-size="mini" onclick="selectSize(this)">
+            <span class="room-emoji">🥤</span>
+            Cozy
+            <span class="room-size">MINI 14OZ</span>
           </button>
-          <button class="size-btn selected" data-size="regular" onclick="selectSize(this)">
-            <span class="size-emoji">🧋</span> Regular (30oz)
+          <button class="room-btn selected" data-size="regular" onclick="selectSize(this)">
+            <span class="room-emoji">🧋</span>
+            Standard
+            <span class="room-size">REGULAR 30OZ</span>
           </button>
-          <button class="size-btn" data-size="huge" onclick="selectSize(this)">
-            <span class="size-emoji">🪣</span> Huge (40oz)
-          </button>
-        </div>
-      </div>
-
-      <!-- Step 3: Charms -->
-      <div class="step-group step-3">
-        <div class="step-label">
-          <span class="step-number">3</span> ADD CHARMS
-        </div>
-        <div class="charm-grid">
-          <button class="charm-btn" data-charm="star" onclick="toggleCharm(this)">
-            <span class="charm-emoji">⭐</span>Star
-          </button>
-          <button class="charm-btn" data-charm="heart" onclick="toggleCharm(this)">
-            <span class="charm-emoji">💖</span>Heart
-          </button>
-          <button class="charm-btn" data-charm="butterfly" onclick="toggleCharm(this)">
-            <span class="charm-emoji">🦋</span>Butterfly
-          </button>
-          <button class="charm-btn" data-charm="flower" onclick="toggleCharm(this)">
-            <span class="charm-emoji">🌸</span>Flower
-          </button>
-          <button class="charm-btn" data-charm="moon" onclick="toggleCharm(this)">
-            <span class="charm-emoji">🌙</span>Moon
-          </button>
-          <button class="charm-btn" data-charm="diamond" onclick="toggleCharm(this)">
-            <span class="charm-emoji">💎</span>Diamond
-          </button>
-          <button class="charm-btn" data-charm="rainbow" onclick="toggleCharm(this)">
-            <span class="charm-emoji">🌈</span>Rainbow
-          </button>
-          <button class="charm-btn" data-charm="cherry" onclick="toggleCharm(this)">
-            <span class="charm-emoji">🍒</span>Cherry
-          </button>
-          <button class="charm-btn" data-charm="lightning" onclick="toggleCharm(this)">
-            <span class="charm-emoji">⚡</span>Lightning
-          </button>
-          <button class="charm-btn" data-charm="crown" onclick="toggleCharm(this)">
-            <span class="charm-emoji">👑</span>Crown
+          <button class="room-btn" data-size="huge" onclick="selectSize(this)">
+            <span class="room-emoji">🪣</span>
+            Suite
+            <span class="room-size">HUGE 40OZ</span>
           </button>
         </div>
       </div>
 
-      <!-- Step 4: Name -->
-      <div class="step-group step-4">
-        <div class="step-label">
-          <span class="step-number">4</span> ADD YOUR NAME
+      <!-- Charms as "Amenities" -->
+      <div class="field-group field-charms">
+        <div class="field-label">
+          <span class="field-icon">3</span> AMENITIES (CHARMS)
+          <span class="room-num">FLOOR 3</span>
         </div>
-        <input type="text" class="name-input" id="cup-name" placeholder="Type your name here..." maxlength="12" oninput="updateCup()">
+        <div class="amenity-grid">
+          <button class="amenity-btn" data-charm="star" onclick="toggleCharm(this)">
+            <span class="amenity-emoji">⭐</span>Star
+          </button>
+          <button class="amenity-btn" data-charm="heart" onclick="toggleCharm(this)">
+            <span class="amenity-emoji">💖</span>Heart
+          </button>
+          <button class="amenity-btn" data-charm="butterfly" onclick="toggleCharm(this)">
+            <span class="amenity-emoji">🦋</span>Butterfly
+          </button>
+          <button class="amenity-btn" data-charm="flower" onclick="toggleCharm(this)">
+            <span class="amenity-emoji">🌸</span>Flower
+          </button>
+          <button class="amenity-btn" data-charm="moon" onclick="toggleCharm(this)">
+            <span class="amenity-emoji">🌙</span>Moon
+          </button>
+          <button class="amenity-btn" data-charm="diamond" onclick="toggleCharm(this)">
+            <span class="amenity-emoji">💎</span>Diamond
+          </button>
+          <button class="amenity-btn" data-charm="rainbow" onclick="toggleCharm(this)">
+            <span class="amenity-emoji">🌈</span>Rainbow
+          </button>
+          <button class="amenity-btn" data-charm="cherry" onclick="toggleCharm(this)">
+            <span class="amenity-emoji">🍒</span>Cherry
+          </button>
+          <button class="amenity-btn" data-charm="lightning" onclick="toggleCharm(this)">
+            <span class="amenity-emoji">⚡</span>Lightning
+          </button>
+          <button class="amenity-btn" data-charm="crown" onclick="toggleCharm(this)">
+            <span class="amenity-emoji">👑</span>Crown
+          </button>
+        </div>
       </div>
 
-      <!-- Step 5: Straw Color -->
-      <div class="step-group step-5">
-        <div class="step-label">
-          <span class="step-number">5</span> STRAW COLOR
+      <!-- Guest Name -->
+      <div class="field-group field-name">
+        <div class="field-label">
+          <span class="field-icon">4</span> GUEST NAME
+          <span class="room-num">FLOOR 4</span>
         </div>
-        <div class="color-row">
-          <label>Straw:</label>
+        <input type="text" class="guest-input" id="cup-name" placeholder="Sign in here..." maxlength="12" oninput="updateCup()">
+        <p class="input-hint">This will be engraved on your cup</p>
+      </div>
+
+      <!-- Straw Color -->
+      <div class="field-group field-straw">
+        <div class="field-label">
+          <span class="field-icon">5</span> STRAW COLOR
+          <span class="room-num">FLOOR 5</span>
+        </div>
+        <div class="straw-row">
+          <label>Color:</label>
           <div class="color-picker-wrap">
             <input type="color" id="straw-color" value="#FF69B4" oninput="updateCup()">
           </div>
-          <span style="font-family:'Bangers',cursive;letter-spacing:1px;color:#888;">Translucent</span>
+          <span class="translucent-tag">TRANSLUCENT</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ROOM KEY CARD PREVIEW -->
+  <div class="preview-side">
+    <div class="key-card reveal">
+      <div class="key-card-header">
+        <h3>ROOM KEY</h3>
+        <span class="room-tag" id="room-number-display">Room #302</span>
+      </div>
+      <div class="key-card-body">
+        <div class="cup-canvas" id="cup-canvas"></div>
+        <div class="guest-name-display" id="cup-name-display">Awaiting guest...</div>
+        <div class="size-tag" id="cup-size-display">STANDARD (30OZ)</div>
+      </div>
+      <div class="mag-stripe"></div>
+      <button class="checkin-btn" onclick="finishCup()">CHECK IN 🛎️</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- ==================== GUEST REVIEWS ==================== -->
+<div class="reviews-section">
+  <div class="reviews-panel reveal">
+    <div class="reviews-header">
+      <h3>GUEST REVIEWS</h3>
+      <span class="avg-rating" id="avg-rating">★ 4.8 / 5</span>
+    </div>
+    <div class="reviews-body" id="reviews-list">
+      <div class="review-card">
+        <div class="review-avatar">👸</div>
+        <div class="review-content">
+          <span class="review-name">PRINCESS_CUPS</span>
+          <div class="review-stars">⭐⭐⭐⭐⭐</div>
+          <p class="review-text">OMG the pink and gold combo is everything!! The charms are so cute I can't even</p>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-avatar">🦄</div>
+        <div class="review-content">
+          <span class="review-name">UNICORN_QUEEN</span>
+          <div class="review-stars">⭐⭐⭐⭐⭐</div>
+          <p class="review-text">Made a rainbow cup with butterfly charms and my name on it. Best hotel ever 10/10</p>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-avatar">💅</div>
+        <div class="review-content">
+          <span class="review-name">SLAY_SIPZ</span>
+          <div class="review-stars">⭐⭐⭐⭐</div>
+          <p class="review-text">Love love love the translucent straw! The suite size is HUGE tho lol it's like a bucket</p>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-avatar">✨</div>
+        <div class="review-content">
+          <span class="review-name">SPARKLE_SIP</span>
+          <div class="review-stars">⭐⭐⭐⭐⭐</div>
+          <p class="review-text">The crown charm + gold straw combo is giving ROYALTY. Will be checking in again!!</p>
         </div>
       </div>
     </div>
-
-    <!-- Preview -->
-    <div class="preview-panel">
-      <div class="preview-card comic-panel reveal">
-        <h3>YOUR CUP</h3>
-        <div class="cup-canvas" id="cup-canvas"></div>
-        <div class="cup-name-display" id="cup-name-display">Design your cup!</div>
-        <div class="cup-details" id="cup-size-display">SIZE: REGULAR (30OZ)</div>
-        <button class="done-btn" onclick="finishCup()">I LOVE IT! 🎉</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Footer -->
-  <div class="footer-panel comic-panel">
-    <p>Made with love by Mia</p>
-    <span style="font-size:2rem;display:block;margin-top:0.5rem;letter-spacing:0.5rem;">🥤🧋🍹✨💖</span>
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Footer -->
+<div class="hotel-footer">
+  <p>Le Grand Stanley Palace ~ Est. 2026 ~ by Mia</p>
+  <span class="footer-icons">🛎️ 🗝️ 🥤 ✨ 💖</span>
+</div>
+
+<!-- ==================== BOOKING CONFIRMATION MODAL ==================== -->
 <div class="modal-overlay" id="result-modal">
-  <div class="modal-card">
-    <h2 id="modal-title">YOUR CUP IS READY!</h2>
-    <div class="modal-cup-display" id="modal-cup"></div>
-    <div class="modal-details" id="modal-details"></div>
-    <button class="close-btn" onclick="closeModal()">MAKE ANOTHER ONE!</button>
+  <div class="receipt-card">
+    <div class="receipt-header">
+      <h2 id="modal-title">BOOKING CONFIRMED!</h2>
+      <span class="conf-num" id="conf-number">Confirmation #00000</span>
+    </div>
+    <div class="receipt-body">
+      <div class="receipt-cup" id="modal-cup"></div>
+      <div class="receipt-details" id="modal-details"></div>
+      <div class="receipt-total">TOTAL: PRICELESS ✨</div>
+
+      <div class="rating-section">
+        <div class="rating-label">RATE YOUR STAY</div>
+        <div class="star-rating" id="modal-stars">
+          <span class="rate-star" data-rating="1" onclick="setRating(1)">⭐</span>
+          <span class="rate-star" data-rating="2" onclick="setRating(2)">⭐</span>
+          <span class="rate-star" data-rating="3" onclick="setRating(3)">⭐</span>
+          <span class="rate-star" data-rating="4" onclick="setRating(4)">⭐</span>
+          <span class="rate-star" data-rating="5" onclick="setRating(5)">⭐</span>
+        </div>
+        <div class="rating-message" id="rating-message"></div>
+      </div>
+    </div>
+    <div class="receipt-footer">
+      <button class="checkout-btn" onclick="submitReview()">CHECK OUT & MAKE ANOTHER!</button>
+    </div>
   </div>
 </div>
 
@@ -740,9 +1161,9 @@
   };
 
   const sizeConfig = {
-    mini:    { label: 'MINI (14OZ)',    height: 200, width: 100, topW: 88,  bottomW: 70 },
-    regular: { label: 'REGULAR (30OZ)', height: 280, width: 120, topW: 105, bottomW: 82 },
-    huge:    { label: 'HUGE (40OZ)',    height: 340, width: 140, topW: 122, bottomW: 95 }
+    mini:    { label: 'COZY (14OZ)',     displayLabel: 'MINI (14OZ)',    height: 200, width: 100, topW: 88,  bottomW: 70,  room: '101' },
+    regular: { label: 'STANDARD (30OZ)', displayLabel: 'REGULAR (30OZ)', height: 280, width: 120, topW: 105, bottomW: 82,  room: '302' },
+    huge:    { label: 'SUITE (40OZ)',    displayLabel: 'HUGE (40OZ)',    height: 340, width: 140, topW: 122, bottomW: 95,  room: '500' }
   };
 
   const charmEmojis = {
@@ -751,7 +1172,7 @@
     lightning: '⚡', crown: '👑'
   };
 
-  const actionWords = ['NICE!','CUTE!','SLAY!','YES!','LOVE IT!','PRETTY!','COOL!','WOW!','FIRE!','ICONIC!'];
+  const actionWords = ['NICE!','CUTE!','SLAY!','YES!','LOVE IT!','PRETTY!','COOL!','WOW!','BOOKED!','VIP!'];
   const actionColors = ['#FF2D87','#00D4FF','#7FFF00','#FFD700','#FF6B35','#9B59B6','#FF69B4','#00E5A0'];
 
   function showActionWord(x, y) {
@@ -833,7 +1254,6 @@
     const sc = state.strawColor;
     const { r: sr, g: sg, b: sb } = hexToRgb(sc);
 
-    // Cup body coordinates
     const lidH = 22 * scale;
     const lidY = 50 * scale;
     const bodyY = lidY + lidH;
@@ -846,16 +1266,13 @@
 
     let svg = `<svg width="${svgW}" height="${svgH}" viewBox="0 0 ${svgW} ${svgH}" xmlns="http://www.w3.org/2000/svg">`;
 
-    // Defs
     svg += `<defs>
-      <!-- Cup body gradient (two-tone) -->
       <linearGradient id="cupGrad" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stop-color="${c1}"/>
         <stop offset="55%" stop-color="${c1}"/>
         <stop offset="60%" stop-color="${c2}"/>
         <stop offset="100%" stop-color="${c2}"/>
       </linearGradient>
-      <!-- Metallic sheen -->
       <linearGradient id="sheen" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0%" stop-color="rgba(255,255,255,0)" />
         <stop offset="30%" stop-color="rgba(255,255,255,0.25)" />
@@ -863,20 +1280,17 @@
         <stop offset="70%" stop-color="rgba(255,255,255,0.1)" />
         <stop offset="100%" stop-color="rgba(255,255,255,0)" />
       </linearGradient>
-      <!-- Shadow gradient -->
       <linearGradient id="shadow" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0%" stop-color="rgba(0,0,0,0.15)" />
         <stop offset="15%" stop-color="rgba(0,0,0,0)" />
         <stop offset="85%" stop-color="rgba(0,0,0,0)" />
         <stop offset="100%" stop-color="rgba(0,0,0,0.12)" />
       </linearGradient>
-      <!-- Lid gradient -->
       <linearGradient id="lidGrad" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0%" stop-color="${darken(c1, 20)}"/>
         <stop offset="50%" stop-color="${lighten(c1, 20)}"/>
         <stop offset="100%" stop-color="${darken(c1, 30)}"/>
       </linearGradient>
-      <!-- Straw translucent -->
       <linearGradient id="strawGrad" x1="0" y1="0" x2="1" y2="0">
         <stop offset="0%" stop-color="rgba(${sr},${sg},${sb},0.45)"/>
         <stop offset="40%" stop-color="rgba(${sr},${sg},${sb},0.25)"/>
@@ -885,38 +1299,33 @@
       </linearGradient>
     </defs>`;
 
-    // Straw (behind cup)
+    // Straw
     const strawW = 8 * scale;
     const strawTopY = 8 * scale;
     const strawTilt = 12 * scale;
     svg += `<rect x="${cx - strawW/2 + strawTilt}" y="${strawTopY}" width="${strawW}" height="${bodyY + bodyH * 0.3 - strawTopY}"
       rx="${strawW/2}" fill="url(#strawGrad)" stroke="rgba(${sr},${sg},${sb},0.4)" stroke-width="${1 * scale}"
       transform="rotate(-8, ${cx}, ${bodyY})"/>`;
-    // Straw shine
     svg += `<rect x="${cx - strawW/2 + strawTilt + strawW*0.3}" y="${strawTopY}" width="${strawW * 0.25}" height="${bodyY + bodyH * 0.3 - strawTopY}"
       rx="${2*scale}" fill="rgba(255,255,255,0.4)"
       transform="rotate(-8, ${cx}, ${bodyY})"/>`;
 
-    // Cup body (trapezoid shape)
+    // Cup body
     svg += `<path d="M${tl},${bodyY} L${tr},${bodyY} L${br},${bodyY + bodyH} L${bl},${bodyY + bodyH} Z"
       fill="url(#cupGrad)" stroke="${darken(c2, 40)}" stroke-width="${2*scale}" stroke-linejoin="round"/>`;
 
-    // Two-tone divider line
+    // Divider
     const divY = bodyY + bodyH * 0.57;
     const divLx = tl + (bl - tl) * 0.57;
     const divRx = tr + (br - tr) * 0.57;
     svg += `<line x1="${divLx}" y1="${divY}" x2="${divRx}" y2="${divY}"
       stroke="${darken(c2, 20)}" stroke-width="${2*scale}" opacity="0.3"/>`;
 
-    // Metallic sheen overlay
-    svg += `<path d="M${tl},${bodyY} L${tr},${bodyY} L${br},${bodyY + bodyH} L${bl},${bodyY + bodyH} Z"
-      fill="url(#sheen)"/>`;
+    // Sheen & shadow
+    svg += `<path d="M${tl},${bodyY} L${tr},${bodyY} L${br},${bodyY + bodyH} L${bl},${bodyY + bodyH} Z" fill="url(#sheen)"/>`;
+    svg += `<path d="M${tl},${bodyY} L${tr},${bodyY} L${br},${bodyY + bodyH} L${bl},${bodyY + bodyH} Z" fill="url(#shadow)"/>`;
 
-    // Edge shadow
-    svg += `<path d="M${tl},${bodyY} L${tr},${bodyY} L${br},${bodyY + bodyH} L${bl},${bodyY + bodyH} Z"
-      fill="url(#shadow)"/>`;
-
-    // Condensation droplets
+    // Condensation
     for (let i = 0; i < 5; i++) {
       const dx = tl + Math.random() * (tr - tl) * 0.6 + (tr - tl) * 0.2;
       const dy = bodyY + bodyH * 0.3 + Math.random() * bodyH * 0.5;
@@ -925,7 +1334,7 @@
         fill="rgba(255,255,255,0.35)" stroke="rgba(255,255,255,0.15)" stroke-width="0.5"/>`;
     }
 
-    // Name on cup
+    // Name
     if (state.name) {
       const nameY = bodyY + bodyH * 0.4;
       const nameSize = Math.min(18 * scale, (tw * 0.8) / (state.name.length * 0.6));
@@ -937,10 +1346,8 @@
     // Lid
     svg += `<rect x="${tl - 4*scale}" y="${lidY}" width="${tw + 8*scale}" height="${lidH}"
       rx="${6*scale}" fill="url(#lidGrad)" stroke="${darken(c1, 40)}" stroke-width="${2*scale}"/>`;
-    // Lid shine
     svg += `<rect x="${tl}" y="${lidY + 3*scale}" width="${tw * 0.6}" height="${4*scale}"
       rx="${2*scale}" fill="rgba(255,255,255,0.3)"/>`;
-    // Straw hole
     svg += `<ellipse cx="${cx + 5*scale}" cy="${lidY + lidH/2}" rx="${6*scale}" ry="${4*scale}"
       fill="${darken(c1, 50)}" opacity="0.5"/>`;
 
@@ -958,12 +1365,26 @@
     svg += `<path d="M${handleX},${handleY1} C${handleX + handleW},${handleY1} ${handleX + handleW},${handleY2} ${handleX - (tr-br)*0.35},${handleY2}"
       fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="${3*scale}" stroke-linecap="round"/>`;
 
-    // Charms on handle
+    // Charms with chains
     state.charms.forEach((charm, i) => {
-      const cy = handleY1 + (handleY2 - handleY1) * ((i + 1) / (state.charms.length + 1));
-      const chX = handleX + handleW - 2*scale;
-      svg += `<text x="${chX}" y="${cy}" font-size="${16*scale}px" text-anchor="middle"
-        style="animation: charmSwing 2s ease-in-out infinite ${i * 0.3}s">${charmEmojis[charm]}</text>`;
+      const t = (i + 1) / (state.charms.length + 1);
+      const cy = handleY1 + (handleY2 - handleY1) * t;
+      const ht = t;
+      const hx = handleX * (1-ht)*(1-ht) + (handleX + handleW) * 2*(1-ht)*ht + (handleX - (tr-br)*0.35) * ht*ht + 2*scale;
+      const chainLen = (20 + i * 6) * scale;
+      const chX = hx;
+      const chY = cy + chainLen;
+      const linkCount = 3 + i % 2;
+      const linkH = chainLen / linkCount;
+      for (let j = 0; j < linkCount; j++) {
+        const ly = cy + j * linkH + linkH * 0.15;
+        const lw = 4 * scale;
+        const lh = linkH * 0.75;
+        svg += `<rect x="${chX - lw/2}" y="${ly}" width="${lw}" height="${lh}"
+          rx="${lw/2}" fill="none" stroke="#C0C0C0" stroke-width="${1.5*scale}"/>`;
+      }
+      svg += `<text x="${chX}" y="${chY + 6*scale}" font-size="${18*scale}px" text-anchor="middle"
+        dominant-baseline="middle">${charmEmojis[charm]}</text>`;
     });
 
     svg += '</svg>';
@@ -987,13 +1408,14 @@
     renderCup(document.getElementById('cup-canvas'));
 
     const nameDisp = document.getElementById('cup-name-display');
-    nameDisp.textContent = state.name ? `"${state.name}'s Cup"` : 'Design your cup!';
+    nameDisp.textContent = state.name ? `Welcome, ${state.name}!` : 'Awaiting guest...';
 
-    document.getElementById('cup-size-display').textContent = 'SIZE: ' + sizeConfig[state.size].label;
+    document.getElementById('cup-size-display').textContent = sizeConfig[state.size].label;
+    document.getElementById('room-number-display').textContent = 'Room #' + sizeConfig[state.size].room;
   }
 
   function selectSize(btn) {
-    document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('selected'));
+    document.querySelectorAll('.room-btn').forEach(b => b.classList.remove('selected'));
     btn.classList.add('selected');
     state.size = btn.dataset.size;
 
@@ -1012,36 +1434,114 @@
     } else {
       state.charms.push(charm);
       btn.classList.add('selected');
-
       const rect = btn.getBoundingClientRect();
       showActionWord(rect.left + rect.width/2 - 30, rect.top - 40);
     }
     updateCup();
   }
 
-  // ==================== FINISH ====================
+  // ==================== CHECK IN ====================
   function finishCup() {
-    const modal = document.getElementById('result-modal');
     const modalCup = document.getElementById('modal-cup');
-    renderCup(modalCup, 1.1);
+    renderCup(modalCup, 1);
 
-    const adjectives = ['Amazing','Gorgeous','Stunning','Fabulous','Incredible','Beautiful','Perfect','Iconic','Legendary','Dreamy'];
+    // Random confirmation number
+    const confNum = 'MIA-' + Math.floor(Math.random() * 90000 + 10000);
+    document.getElementById('conf-number').textContent = 'Confirmation ' + confNum;
+
+    const adjectives = ['VIP','LUXURY','PREMIUM','DELUXE','PLATINUM','ROYAL','DIAMOND','PRESIDENTIAL'];
     const adj = adjectives[Math.floor(Math.random() * adjectives.length)];
-    document.getElementById('modal-title').textContent = `${adj.toUpperCase()} CUP ALERT!`;
+    document.getElementById('modal-title').textContent = `${adj} BOOKING CONFIRMED!`;
 
+    // Build receipt
+    const details = document.getElementById('modal-details');
     let html = '';
-    html += `<p><strong>Colors:</strong> ${getColorName(state.color1)} + ${getColorName(state.color2)}</p>`;
-    html += `<p><strong>Size:</strong> ${sizeConfig[state.size].label}</p>`;
-    if (state.charms.length) html += `<p><strong>Charms:</strong> ${state.charms.map(c => charmEmojis[c]).join(' ')}</p>`;
-    if (state.name) html += `<p><strong>Name:</strong> ${escapeHtml(state.name)}</p>`;
-    html += `<p><strong>Straw:</strong> ${getColorName(state.strawColor)} (translucent)</p>`;
-    document.getElementById('modal-details').innerHTML = html;
+    html += `<div class="receipt-row"><span class="r-label">GUEST:</span><span class="r-value">${state.name || 'Anonymous'}</span></div>`;
+    html += `<div class="receipt-row"><span class="r-label">ROOM:</span><span class="r-value">#${sizeConfig[state.size].room} (${sizeConfig[state.size].label})</span></div>`;
+    html += `<div class="receipt-row"><span class="r-label">COLORS:</span><span class="r-value">${getColorName(state.color1)} + ${getColorName(state.color2)}</span></div>`;
+    html += `<div class="receipt-row"><span class="r-label">STRAW:</span><span class="r-value">${getColorName(state.strawColor)} (translucent)</span></div>`;
+    if (state.charms.length) {
+      html += `<div class="receipt-row"><span class="r-label">AMENITIES:</span><span class="r-value">${state.charms.map(c => charmEmojis[c]).join(' ')}</span></div>`;
+    }
+    details.innerHTML = html;
 
-    modal.classList.add('active');
+    document.getElementById('result-modal').classList.add('active');
     launchConfetti();
   }
 
+  let currentRating = 0;
+
+  const ratingMessages = {
+    1: "Hmm, we'll do better next time...",
+    2: "Not bad, but room for improvement!",
+    3: "A solid cup experience!",
+    4: "Amazing! Almost perfect!",
+    5: "FIVE STARS!! LEGENDARY CUP!!"
+  };
+
+  function setRating(rating) {
+    currentRating = rating;
+    const stars = document.querySelectorAll('#modal-stars .rate-star');
+    stars.forEach((star, i) => {
+      star.classList.toggle('active', i < rating);
+    });
+    document.getElementById('rating-message').textContent = ratingMessages[rating];
+  }
+
+  function submitReview() {
+    if (currentRating > 0 && state.name) {
+      const reviewsList = document.getElementById('reviews-list');
+      const avatars = ['🌟','💫','🔥','💕','🎀','🍬','🌺','🫧','💜','🧸'];
+      const avatar = avatars[Math.floor(Math.random() * avatars.length)];
+      const stars = '⭐'.repeat(currentRating);
+
+      const phrases = [
+        `Made a ${getColorName(state.color1)} + ${getColorName(state.color2)} cup and it's GORGEOUS`,
+        `The ${sizeConfig[state.size].label.toLowerCase()} size is perfect!! Love my cup`,
+        `${state.charms.length ? state.charms.map(c => charmEmojis[c]).join('') + ' charms are everything!!' : 'So pretty I cant stop looking at it'}`,
+        `Best custom cup EVER. The colors are so good together`,
+        `Checked in and never checking out!! This cup is my whole personality now`
+      ];
+      const phrase = phrases[Math.floor(Math.random() * phrases.length)];
+
+      const card = document.createElement('div');
+      card.className = 'review-card your-review';
+      card.innerHTML = `
+        <div class="review-avatar">${avatar}</div>
+        <div class="review-content">
+          <span class="review-name">${escapeHtml(state.name.toUpperCase())}<span class="new-badge">NEW</span></span>
+          <div class="review-stars">${stars}</div>
+          <p class="review-text">${phrase}</p>
+        </div>
+      `;
+      reviewsList.insertBefore(card, reviewsList.firstChild);
+
+      // Update average
+      updateAvgRating();
+    }
+
+    currentRating = 0;
+    document.querySelectorAll('#modal-stars .rate-star').forEach(s => s.classList.remove('active'));
+    document.getElementById('rating-message').textContent = '';
+    document.getElementById('result-modal').classList.remove('active');
+  }
+
+  function updateAvgRating() {
+    const allStars = document.querySelectorAll('.review-card .review-stars');
+    let total = 0, count = 0;
+    allStars.forEach(el => {
+      const starCount = (el.textContent.match(/⭐/g) || []).length;
+      total += starCount;
+      count++;
+    });
+    const avg = (total / count).toFixed(1);
+    document.getElementById('avg-rating').textContent = `★ ${avg} / 5`;
+  }
+
   function closeModal() {
+    currentRating = 0;
+    document.querySelectorAll('#modal-stars .rate-star').forEach(s => s.classList.remove('active'));
+    document.getElementById('rating-message').textContent = '';
     document.getElementById('result-modal').classList.remove('active');
   }
 
@@ -1049,7 +1549,7 @@
   function launchConfetti() {
     const container = document.getElementById('confetti');
     container.innerHTML = '';
-    const colors = ['#FF2D87','#00D4FF','#7FFF00','#FFD700','#FF6B35','#9B59B6','#FF69B4','#00E5A0'];
+    const colors = ['#C9A84C','#FF2D87','#00D4FF','#FFD700','#FF6B35','#9B59B6','#FF69B4','#00E5A0'];
 
     for (let i = 0; i < 100; i++) {
       const piece = document.createElement('div');
